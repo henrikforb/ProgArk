@@ -1,7 +1,11 @@
 package com.mygdx.game.controller;
 
 
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.view.SuperView;
+
+import java.util.Stack;
 
 public class ViewController {
 
@@ -25,7 +29,7 @@ public class ViewController {
     }
 
     public void update(float dt){
-        views.peek().update();
+        views.peek().update(dt);
     }
 
     public void render(SpriteBatch sb){
