@@ -13,8 +13,8 @@ public class ImpossibleGravity extends ApplicationAdapter {
 
 	private SpriteBatch batch;
 
-	public static final int WIDTH = 480;
-	public static final int HEIGHT = 480;
+	public static final int WIDTH = 480; //width of the screen
+	public static final int HEIGHT = 480; //height of the screen
 	public static final String TITLE = "Impossible Gravity";
 
 	public static final int GRAVITY = 5;
