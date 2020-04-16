@@ -31,7 +31,7 @@ public class ImpossibleGravity extends ApplicationAdapter {
 		mc = new MenuController(vc);
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 
-		vc.push(new PlayView(vc));
+		//vc.push(new PlayView(vc));
 		vc.push(new MenuView(mc));
 	}
 

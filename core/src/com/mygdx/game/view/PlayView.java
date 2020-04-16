@@ -1,6 +1,5 @@
 package com.mygdx.game.view;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -11,18 +10,15 @@ import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.PlayerController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.PauseBtn;
-import com.mygdx.game.model.BottomSpikes;
 import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.ObstacleFactory;
 import com.mygdx.game.model.Player;
-import com.mygdx.game.model.TopSpikes;
 import com.mygdx.game.model.World;
 
 // Import the sprites here, when these are created in model (e.g. the character, obstacles)
 
 public class PlayView extends SuperView {
-    protected ViewController gameController;
-    private PlayerController pc;
+    protected PlayerController pc;
     private Stage stage;
     private PauseBtn pauseBtn;
 
@@ -42,10 +38,8 @@ public class PlayView extends SuperView {
     // Make an array of the obstacles (obstacle must be made as a model).
     //private Array<Obstacle> obstacles;
 
-    public PlayView(ViewController vc){
-
-        this.gameController = vc;
-        this.pc = new PlayerController(vc);
+    public PlayView(PlayerController pc){
+        this.pc = pc;
         // this.pauseBtn = new PauseBtn();
 
         // Setting up the stage, adding the actors (buttons)

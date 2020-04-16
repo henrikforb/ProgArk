@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.MenuController;
+import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.HelpBtn;
 import com.mygdx.game.interactiveElements.PlayBtn;
 import com.mygdx.game.interactiveElements.QuitBtn;
@@ -38,33 +39,37 @@ public class MenuView extends SuperView{
 
         // Setting up the stage, adding the actors (buttons)
         stage = new Stage(new ScreenViewport());
-        stage.addActor(playBtn);
-        stage.addActor(quitBtn);
-        stage.addActor(settingsBtn);
-        stage.addActor(helpBtn);
         Gdx.input.setInputProcessor(stage);
+
+        int row_height = Gdx.graphics.getWidth() / 12;
+        int col_width = Gdx.graphics.getWidth() / 12;
+
+        //playBtn.setSize(col_width*4,(float)(row_height*2));
 
         // Position the buttons
         playBtn.setPosition(camera.position.x - playBtn.getWidth() / 2, camera.position.y);
-        quitBtn.setPosition(camera.position.x - quitBtn.getWidth() / 2, camera.position.y+20);
+        quitBtn.setPosition(camera.position.x - quitBtn.getWidth() / 2, camera.position.y+60);
         settingsBtn.setPosition(camera.position.x - settingsBtn.getWidth() / 2, camera.position.y+40);
         helpBtn.setPosition(camera.position.x - helpBtn.getWidth() / 2, camera.position.y+60);
 
         // GameInstance is the equivalent to the FlappyDemo in the tutorial.
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
 
+        stage.addActor(playBtn);
+        stage.addActor(quitBtn);
+        stage.addActor(settingsBtn);
+        stage.addActor(helpBtn);
         world = new World();
     }
-
     @Override
     public void handleInput() {
         // Add listeners to buttons
         // May have to move the listeners outside of a handleInput()-method.
         // Double clicks can be detected using getTapCount()playBtn.addListener(new ClickListener(){
 
-        if(Gdx.input.justTouched()){
+        /*if(Gdx.input.justTouched()){
             menuController.playGamePressed();
-        }
+        }*/
 
         playBtn.addListener(new ClickListener() {
             @Override
@@ -111,14 +116,16 @@ public class MenuView extends SuperView{
          
         sb.begin();
         sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
-        sb.draw(playBtn.getPlayBtn(), camera.viewportWidth, camera.viewportWidth, 60, 40);
+        //sb.draw(playBtn.getPlayBtn(), camera.viewportWidth, camera.viewportWidth, 60, 40);
         sb.end();
+        stage.act();
+        stage.draw();
     }
 
     @Override
     public void dispose() {
         world.dispose();
-        playBtn.dispose();
+        //playBtn.dispose();
         System.out.println("Menu View Disposed");
     }
 }

@@ -10,19 +10,22 @@ public class MenuController {
     private ViewController vc;
 
     public MenuController(ViewController vc) {
+
         this.vc = vc;
     }
 
     public void quit() {
+
         Gdx.app.exit();
     }
 
     public void settingsPressed(){
+
         vc.set(new SettingsView(new SettingsController(vc)));
     }
 
     public void playGamePressed(){
-        vc.set(new PlayView(vc));
+        vc.set(new PlayView(new PlayerController(vc)));
     }
 
     /*
