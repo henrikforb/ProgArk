@@ -55,8 +55,8 @@ public class LoadingView extends SuperView{
 
     public void connectSocket() {
         try {
-            socket = IO.socket("https://progark-server.herokuapp.com/");
-            // socket = IO.socket("http://localhost:8080");
+            //socket = IO.socket("https://progark-server.herokuapp.com/");
+            socket = IO.socket("http://localhost:8080");
             socket.connect();
         } catch (Exception e) {
             System.out.println(e);
@@ -86,7 +86,7 @@ public class LoadingView extends SuperView{
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 try {
-                    startGame(data.getInt("gameID"));
+                    startGame("" + data.getInt("gameID"));
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error starting game");
                 }
@@ -109,7 +109,7 @@ public class LoadingView extends SuperView{
 
     }
 
-    private void startGame(int gameID) {
+    private void startGame(String gameID) {
         loadingController.startGame(socket, gameID);
     }
 

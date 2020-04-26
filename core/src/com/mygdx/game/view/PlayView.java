@@ -42,7 +42,7 @@ public class PlayView extends SuperView {
     private Stage stage;
     private World world;
     private boolean multiplayer;
-    private int gameID;
+    private String gameID;
 
     // private HashMap<String, Character> enemyCharacters;
 
@@ -83,7 +83,7 @@ public class PlayView extends SuperView {
         startListeners();
     }
 
-    public PlayView(ViewController vc, Socket socket, int gameID){
+    public PlayView(ViewController vc, Socket socket, String gameID){
 
         this.gameID = gameID;
         this.world = new World();
@@ -255,17 +255,6 @@ public class PlayView extends SuperView {
                 }
                 Gdx.app.log("SocketIO", "Player jumped");
             }
-        }).on("startGame", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
-                try {
-                    setGameID(data.getInt("gameID"));
-                    world.createEnemy();
-                } catch (JSONException e) {
-                    Gdx.app.log("SocketIO", "Error starting game");
-                }
-            }
         }).on("getPlayers", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -310,10 +299,6 @@ public class PlayView extends SuperView {
 
         camera.position.set(world.getCharacter().getPosition().x + 100, ImpossibleGravity.HEIGHT/2, 0);
         camera.update();
-    }
-
-    public void setGameID(int gameID) {
-        this.gameID = gameID;
     }
 
     /**

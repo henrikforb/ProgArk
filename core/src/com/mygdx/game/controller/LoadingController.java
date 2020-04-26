@@ -13,7 +13,7 @@ public class LoadingController {
         this.vc = vc;
     }
 
-    public void startGame(Socket socket, int gameID){
+    public void startGame(Socket socket, String gameID){
 
         vc.set(new PlayView(vc, socket, gameID));
     }
