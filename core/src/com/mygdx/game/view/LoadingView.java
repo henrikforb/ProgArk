@@ -55,8 +55,8 @@ public class LoadingView extends SuperView{
 
     public void connectSocket() {
         try {
-            //socket = IO.socket("https://progark-server.herokuapp.com/");
-            socket = IO.socket("http://localhost:8080");
+            socket = IO.socket("https://progark-server.herokuapp.com/");
+            //socket = IO.socket("http://localhost:8080");
             socket.connect();
         } catch (Exception e) {
             System.out.println(e);
