@@ -26,8 +26,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -53,17 +51,47 @@ public class PlayView extends SuperView {
     private MenuBtn menuBtn;
     private PauseBtn pauseBtn;
 
-    
-    public PlayView(ViewController vc, boolean multiplayer){
+
+    public PlayView(ViewController vc){
 
         this.world = new World();
         this.gameController = new GameController(vc, world);
         this.pc = new CharacterController(vc);
 
-        this.multiplayer = multiplayer;
+        this.multiplayer = false;
+
+        this.pauseBtn = new PauseBtn();
+        this.menuBtn = new MenuBtn();
+
+        stage = new Stage(new ScreenViewport());
+
+        int btnHeight = Gdx.graphics.getHeight() / 10;
+        int btnWidth = btnHeight * 2;
+
+        menuBtn.getMenuBtn().setSize(btnWidth, btnHeight);
+        pauseBtn.getPauseBtn().setSize(btnWidth, btnHeight);
+
+        menuBtn.getMenuBtn().setPosition(
+                (float)btnWidth/4,
+                Gdx.graphics.getHeight() - (float)btnHeight/4,
+                Align.topLeft);
+
+        pauseBtn.getPauseBtn().setPosition(
+                btnWidth + (float)btnWidth/4*2,
+                Gdx.graphics.getHeight() - (float)btnHeight/4,
+                Align.topLeft);
+        startListeners();
+    }
+
+    public PlayView(ViewController vc, Socket socket, int gameID){
+
+        this.gameID = gameID;
+        this.world = new World();
+        this.world.createEnemy();
+        this.gameController = new GameController(vc, world);
+        this.pc = new CharacterController(vc);
 
         this.multiplayer = true;
-        System.out.println(this.multiplayer);
 
         this.pauseBtn = new PauseBtn();
         this.menuBtn = new MenuBtn();
@@ -86,9 +114,9 @@ public class PlayView extends SuperView {
                 Gdx.graphics.getHeight() - (float)btnHeight/4,
                 Align.topLeft);
 
-        if (this.multiplayer) {
-            startOnline();
-        }
+        this.socket = socket;
+
+        startOnline();
         startListeners();
     }
 
@@ -106,14 +134,26 @@ public class PlayView extends SuperView {
             @Override
             public boolean tap(float x, float y, int count, int button) {
                 pc.touch(world.getCharacter());
-                updateServer(0);
+                if (multiplayer) {
+                    updateServer(0, 0);
+                }
                 return true;
             }
             @Override
             public boolean fling(float velocityX, float velocityY, int button) {
-                if (velocityY > 10) { pc.swipe(world.getCharacter(), 0); }
-                if (velocityY < -10) { pc.swipe(world.getCharacter(), 1); }
-                updateServer(1);
+                if (velocityY > 10) {
+                    pc.swipe(world.getCharacter(), 0);
+                    if (multiplayer) {
+                        updateServer(1, 0);
+                    }
+                }
+                if (velocityY < -10) {
+                    pc.swipe(world.getCharacter(), 1);
+                    if (multiplayer) {
+                        updateServer(1, 1);
+                    }
+                }
+
                 return true;
             }
         }));
@@ -170,42 +210,14 @@ public class PlayView extends SuperView {
 
     public void startOnline() {
         // enemyCharacters = new HashMap<String, Character>();
-        connectSocket();
         configSocketEvents();
-    }
-
-    public void connectSocket() {
-        try {
-            // socket = IO.socket("https://progark-server.herokuapp.com/");
-            socket = IO.socket("http://localhost:8080");
-            socket.connect();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
     }
 
     //TODO pass socket to playview
     //TODO move connection logic to menu
 
     public void configSocketEvents() {
-        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                Gdx.app.log("SocketIO", "Connected");
-            }
-        }).on("socketID", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
-                try {
-                    String id = data.getString("id");
-                    Gdx.app.log("SocketIO", "My ID: " + id);
-                    Gdx.app.log("SocketIO","connected to heroku server");
-                } catch (JSONException e) {
-                    Gdx.app.log("SocketIO", "Error getting ID");
-                }
-            }
-        }).on("newPlayer", new Emitter.Listener() {
+        socket.on("newPlayer", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
@@ -236,7 +248,7 @@ public class PlayView extends SuperView {
                     if (data.getInt("movement") == 0) {
                         pc.touch(world.getEnemy());
                     } else {
-                        //pc.swipe(world.getEnemy(), );
+                        pc.swipe(world.getEnemy(), data.getInt("direction"));
                     }
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting New PlayerID");
@@ -273,10 +285,11 @@ public class PlayView extends SuperView {
         });
     }
 
-    public void updateServer(int movementType) {
+    public void updateServer(int movementType, int direction) {
         JSONObject data = new JSONObject();
         try {
             data.put("movement", movementType);
+            data.put("direction", movementType);
             data.put("gameID", this.gameID);
             socket.emit("playerMoved", data);
         } catch (JSONException e) {
@@ -321,7 +334,7 @@ public class PlayView extends SuperView {
         }
 
         sb.draw(world.getCharacter().getSprite(), world.getCharacter().getPosition().x, world.getCharacter().getPosition().y);
-        if (world.doesEnemyExists()) {
+        if (world.getEnemyExists()) {
             sb.draw(world.getEnemy().getSprite(), world.getEnemy().getPosition().x, world.getEnemy().getPosition().y);
         }
 

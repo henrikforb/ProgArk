@@ -66,7 +66,7 @@ public class World {
         return enemy;
     }
 
-    public boolean doesEnemyExists() {
+    public boolean getEnemyExists() {
         return this.enemyExists;
     }
 
@@ -123,7 +123,9 @@ public class World {
 
     public void dispose() {
         character.dispose();
-        enemy.dispose();
+        if (enemyExists) {
+            enemy.dispose();
+        }
         music.dispose();
         grass.dispose();
         heaven.dispose();

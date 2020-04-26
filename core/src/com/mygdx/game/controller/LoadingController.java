@@ -3,6 +3,8 @@ package com.mygdx.game.controller;
 import com.mygdx.game.model.Character;
 import com.mygdx.game.view.PlayView;
 
+import io.socket.client.Socket;
+
 public class LoadingController {
 
     private ViewController vc;
@@ -11,8 +13,8 @@ public class LoadingController {
         this.vc = vc;
     }
 
-    public void startGame(){
+    public void startGame(Socket socket, int gameID){
 
-        vc.set(new PlayView(vc, vc.multiplayer));
+        vc.set(new PlayView(vc, socket, gameID));
     }
 }

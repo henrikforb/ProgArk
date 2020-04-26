@@ -28,7 +28,7 @@ public class MenuController {
         if (multiplayerChecked()) {
             vc.set(new LoadingView(new LoadingController(vc)));
         }else {
-            vc.set(new PlayView(vc, multiplayerChecked()));
+            vc.set(new PlayView(vc));
         }
     }
 
