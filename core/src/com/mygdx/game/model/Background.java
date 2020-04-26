@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
- * Background shown in all views here
+ * Background shown in all views
  */
 public class Background {
 

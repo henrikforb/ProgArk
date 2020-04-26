@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 
 /**
  * A players score equal to the time played
- * The score is rendered to screen in the playView
+ * The score is rendered to screen in the PlayView
  */
 
 public class Score {

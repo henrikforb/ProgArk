@@ -1,7 +1,7 @@
 package com.mygdx.game.controller;
 
 import com.mygdx.game.model.Character;
-import com.mygdx.game.view.GameOverScreen;
+import com.mygdx.game.view.GameOverView;
 
 public class CharacterController {
 
@@ -15,12 +15,12 @@ public class CharacterController {
         character.jump();
     }
 
-    public void swipe(Character character, int deltaY) {
-        character.switchGravity(deltaY);
+    public void swipe(Character character, int direction) {
+        character.switchGravity(direction);
     }
 
     public void gameOver(){
-        vc.set(new GameOverScreen(new GameOverController(vc)));
+        vc.set(new GameOverView(new GameOverController(vc)));
     }
 
 

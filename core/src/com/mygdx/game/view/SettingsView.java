@@ -21,7 +21,7 @@ import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.model.Settings;
 
 /**
- * Description
+ * View for settings screen when "settings" is pushed in menu
  */
 public class SettingsView extends SuperView{
     protected SettingsController settingsController;
@@ -70,38 +70,27 @@ public class SettingsView extends SuperView{
 
     }
 
+    /**
+     * Listeners for touch gestures to notice input from the user
+     */
     @Override
     public void startListeners() {
 
         menuBtn.getMenuBtn().clearListeners();
-        // checkBox.clearListeners(); // checkbox doesn't work if this line is run??
 
         Gdx.input.setInputProcessor(stage);
         stage.addActor(menuBtn.getMenuBtn());
         stage.addActor(checkBox);
 
-        /*
-        // LISTENERS FOR CLICK GESTURES
-        menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("menuBtn is clicked");
-                settingsController.backToMenu();
-            }
-        });
-
-         */
-
-        // LISTENERS FOR TAP GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("menuBtn is touched.");
                 settingsController.backToMenu();
+                dispose();
             }
         });
 
-        // CHECKBOX LISTENER
         checkBox.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
                 settingsController.toggleGameMusic();

@@ -6,18 +6,25 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 /**
- * logic for all settings needed: Music enable and volume
+ * Logic for all settings needed: Music enable and volume
  */
-public class Settings {
+public final class Settings {
+
+    private static final Settings INSTANCE = new Settings();
+
+    public static Settings getInstance(){
+        return INSTANCE;
+    }
 
     private boolean enableGameMusic = true;
     private BitmapFont font;
 
-    public Settings(){
+    private Settings(){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Retro Gaming.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = Gdx.graphics.getHeight() / 18;
         parameter.color = Color.valueOf("#ff6f00"); // can be changed to orange to match buttons
+
         this.font = generator.generateFont(parameter);
         generator.dispose();
     }

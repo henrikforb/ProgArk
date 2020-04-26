@@ -19,6 +19,9 @@ import com.mygdx.game.interactiveElements.Text;
 
 import java.awt.Label;
 
+/**
+ * View for help screen shown when "help" is clocked from menu
+ */
 public class HelpView extends SuperView{
 
     protected HelpController helpController;
@@ -52,6 +55,9 @@ public class HelpView extends SuperView{
     public void show(){
     }
 
+    /**
+     * Listeners for touch gestures to notice input from the user
+     */
     @Override
     public void startListeners() {
 
@@ -60,24 +66,14 @@ public class HelpView extends SuperView{
         Gdx.input.setInputProcessor(stage);
         stage.addActor(menuBtn.getMenuBtn());
 
-        // LISTENERS FOR CLICK GESTURES
-        menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("menuBtn is clicked");
-                helpController.backToMenu();
-            }
-        });
-
-        // LISTENERS FOR TAP GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("menuBtn is touched.");
                 helpController.backToMenu();
+                dispose();
             }
         });
-
     }
 
     @Override
@@ -108,6 +104,8 @@ public class HelpView extends SuperView{
         background.dispose();
         System.out.println("Help View Disposed");
         menuBtn.dispose();
+        helpTexture.dispose();
+
     }
 
 }

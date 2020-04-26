@@ -4,16 +4,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
 /**
- * Created by henrikforb on 23. April 2020.
+ * Logic for animation of the textures: background and character
  **/
 
 public class Animation {
 
-    private Array<TextureRegion> frames; // all the frames
-    private float totalFrameTime; // how long a frame can in the view
-    private float currentFrameTime; // how long the animation has been in the current frame
-    private int frameCount; // the number of frames in our animation
-    private int currentFrame; // the current frame we are actually in
+    private Array<TextureRegion> frames;
+    private float totalFrameTime;
+    private float currentFrameTime;
+    private int frameCount;
+    private int currentFrame;
 
     public Animation(TextureRegion region, int frameCount, float cycleTime) {
         frames = new Array<TextureRegion>();

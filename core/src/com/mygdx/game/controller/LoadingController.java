@@ -1,5 +1,6 @@
 package com.mygdx.game.controller;
 
+import com.mygdx.game.model.Character;
 import com.mygdx.game.view.PlayView;
 
 public class LoadingController {
@@ -11,6 +12,7 @@ public class LoadingController {
     }
 
     public void startGame(){
-        vc.set(new PlayView(vc));
+
+        vc.set(new PlayView(vc, vc.multiplayer));
     }
 }

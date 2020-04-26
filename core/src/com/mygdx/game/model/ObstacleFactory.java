@@ -37,16 +37,17 @@ public class ObstacleFactory {
      */
     public Obstacle generateObstacle(Character character, Grass grass) {
 
-        chosenObstacle = random.nextInt(3);
-        chosenHeight = 20 + random.nextInt(50);
-        chosenWidth = chosenHeight * (70/30);
+        chosenObstacle = random.nextInt(11);
+        chosenHeight = 50 + random.nextInt(50);
+        chosenWidth = chosenHeight / 3;
 
-        if (chosenObstacle == 0) {
-            return new Lightning(character.getPosition().x + ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT, chosenWidth/4, chosenHeight*4);
-        } else if (chosenObstacle == 1 || chosenObstacle == 2) {
-            return new Cactus(character.getPosition().x + ImpossibleGravity.WIDTH, grass.getGroundHeight()-10, chosenWidth, chosenHeight);
+        if (chosenObstacle < 4) {
+            return new Lightning(character.getPosition().x + ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT, chosenWidth/2, chosenHeight*2);
+        } else if (chosenObstacle < 10) {
+            return new Cactus(character.getPosition().x + ImpossibleGravity.WIDTH, grass.getGroundHeight()-10, chosenHeight, chosenWidth);
+        } else {
+            return new Cactus(character.getPosition().x + ImpossibleGravity.WIDTH, grass.getGroundHeight()-10, 200, 50);
         }
-        return null;
     }
 
     /**

@@ -164,5 +164,4 @@ public class HighscoreView extends SuperView {
 
     }
 
-
 }

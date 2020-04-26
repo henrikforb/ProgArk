@@ -2,6 +2,10 @@ package com.mygdx.game.controller;
 
 import com.mygdx.game.view.MenuView;
 
+
+/**
+ * Not used as of now. Logic for an alternative menu-solution that was changed
+ */
 public class StartController {
 
     private ViewController vc;
@@ -11,7 +15,7 @@ public class StartController {
     }
 
     public void multiPlayerPressed(){
-        //TODO change this when multi player is set up
+
         vc.set(new MenuView(new MenuController(vc)));
     }
 

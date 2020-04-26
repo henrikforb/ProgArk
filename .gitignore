@@ -125,3 +125,10 @@ Thumbs.db
 !/ios-moe/xcode/*.xcodeproj/xcshareddata
 !/ios-moe/xcode/*.xcodeproj/project.pbxproj
 /ios-moe/xcode/native/
+
+## Node
+
+/node_modules
+npm-debug.log
+.DS_Store
+/*.env

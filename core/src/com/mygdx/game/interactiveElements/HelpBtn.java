@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-// Making texture into a button
 public class HelpBtn extends Actor {
     private Texture helpTexture;
     public Image helpBtn;

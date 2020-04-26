@@ -1,8 +1,5 @@
 package com.mygdx.game.view;
 
-// Not planned in the view-section in architecture, but I made it læll since pausing the game
-// is a functional requirement. Remember to add to the views in the document.
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,8 +14,10 @@ import com.mygdx.game.controller.PauseController;
 import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.interactiveElements.PlayBtn;
 import com.mygdx.game.interactiveElements.SettingsBtn;
-// Here we need the import of the game instance!
 
+/**
+ * View for pause screen that is shown when pausing a game
+ */
 public class PauseView extends SuperView{
 
     protected PauseController pauseController;
@@ -28,7 +27,6 @@ public class PauseView extends SuperView{
     private MenuBtn menuBtn;
     private SettingsBtn settingsBtn;
 
-    // Constructor
     public PauseView(final PauseController pauseController) {
         this.pauseController = pauseController;
 
@@ -67,7 +65,6 @@ public class PauseView extends SuperView{
     }
 
     @Override
-    // Draws background, and the "play"-button.
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
@@ -82,6 +79,9 @@ public class PauseView extends SuperView{
 
     }
 
+    /**
+     * Listeners for touch gestures to notice input from the user
+     */
     @Override
     public void startListeners() {
 
@@ -93,32 +93,13 @@ public class PauseView extends SuperView{
         stage.addActor(playBtn.getPlayBtn());
         stage.addActor(menuBtn.getMenuBtn());
         stage.addActor(settingsBtn.getSettingsBtn());
-        /*
-        // LISTENERS FOR CLICK GESTURES
-        playBtn.getPlayBtn().addListener(new ActorGestureListener() {
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("continueGame is clicked");
-                pauseController.ContinueGame();
-            }
-        });
 
-        menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("menuBtn is clicked");
-                pauseController.BackToMenu();
-            }
-        });
-
-         */
-
-        // LISTENERS FOR TOUCH GESTURES
         playBtn.getPlayBtn().addListener(new ActorGestureListener() {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("continueGame is touched.");
                 pauseController.ContinueGame();
+                dispose();
             }
         });
 
@@ -127,6 +108,7 @@ public class PauseView extends SuperView{
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("menuBtn is touched.");
                 pauseController.BackToMenu();
+                dispose();
             }
         });
 

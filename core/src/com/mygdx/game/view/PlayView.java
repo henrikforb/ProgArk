@@ -1,12 +1,13 @@
 package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import com.badlogic.gdx.math.Vector3;
+
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
@@ -21,6 +22,16 @@ import com.mygdx.game.interactiveElements.PauseBtn;
 import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.World;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
+
 /**
  * The view shown when a game is playing
  * Contains all the textures from the world and a few buttons in addition to the SuperView
@@ -32,15 +43,28 @@ public class PlayView extends SuperView {
     private CharacterController pc;
     private Stage stage;
     private World world;
+    private boolean multiplayer;
+    private int gameID;
+
+    // private HashMap<String, Character> enemyCharacters;
+
+    private Socket socket;
 
     private MenuBtn menuBtn;
     private PauseBtn pauseBtn;
 
-    public PlayView(ViewController vc){
+    
+    public PlayView(ViewController vc, boolean multiplayer){
 
         this.world = new World();
         this.gameController = new GameController(vc, world);
         this.pc = new CharacterController(vc);
+
+        this.multiplayer = multiplayer;
+
+        this.multiplayer = true;
+        System.out.println(this.multiplayer);
+
         this.pauseBtn = new PauseBtn();
         this.menuBtn = new MenuBtn();
 
@@ -62,11 +86,14 @@ public class PlayView extends SuperView {
                 Gdx.graphics.getHeight() - (float)btnHeight/4,
                 Align.topLeft);
 
+        if (this.multiplayer) {
+            startOnline();
+        }
         startListeners();
     }
 
     /**
-     * Description
+     * Listeners for touch gestures to notice input from the user
      */
     public void startListeners(){
 
@@ -78,13 +105,15 @@ public class PlayView extends SuperView {
         multiplexer.addProcessor(new GestureDetector(new GestureDetector.GestureAdapter() {
             @Override
             public boolean tap(float x, float y, int count, int button) {
-                world.getCharacter().jump();
+                pc.touch(world.getCharacter());
+                updateServer(0);
                 return true;
             }
             @Override
             public boolean fling(float velocityX, float velocityY, int button) {
-                if (velocityY > 10){world.getCharacter().switchGravity(0);}
-                if (velocityY < -10){world.getCharacter().switchGravity(1);}
+                if (velocityY > 10) { pc.swipe(world.getCharacter(), 0); }
+                if (velocityY < -10) { pc.swipe(world.getCharacter(), 1); }
+                updateServer(1);
                 return true;
             }
         }));
@@ -95,19 +124,21 @@ public class PlayView extends SuperView {
         /*
         menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
             @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("menuBtn is clicked");
-                gameController.quitGame();
+            public boolean tap(float x, float y, int count, int button) {
+                pc.touch(world.getCharacter());
+                return true;
             }
-        });
-
-        pauseBtn.getPauseBtn().addListener(new ActorGestureListener(){
             @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("pauseBtn is clicked");
-                gameController.pauseGame();
+            public boolean fling(float velocityX, float velocityY, int button) {
+                if (velocityY > 10) { pc.swipe(world.getCharacter(), 0); }
+                if (velocityY < -10) { pc.swipe(world.getCharacter(), 1); }
+                return true;
             }
-        });
+        }));
+        Gdx.input.setInputProcessor(multiplexer);
+
+        stage.addActor(pauseBtn.getPauseBtn());
+        stage.addActor(menuBtn.getMenuBtn());
 
          */
 
@@ -124,6 +155,7 @@ public class PlayView extends SuperView {
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("menuBtn is touched.");
                 gameController.quitGame();
+                dispose();
             }
         });
     }
@@ -134,11 +166,127 @@ public class PlayView extends SuperView {
      */
     @Override
     protected void handleInput() {
-
     }
 
+    public void startOnline() {
+        // enemyCharacters = new HashMap<String, Character>();
+        connectSocket();
+        configSocketEvents();
+    }
+
+    public void connectSocket() {
+        try {
+            // socket = IO.socket("https://progark-server.herokuapp.com/");
+            socket = IO.socket("http://localhost:8080");
+            socket.connect();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    //TODO pass socket to playview
+    //TODO move connection logic to menu
+
+    public void configSocketEvents() {
+        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                Gdx.app.log("SocketIO", "Connected");
+            }
+        }).on("socketID", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    String id = data.getString("id");
+                    Gdx.app.log("SocketIO", "My ID: " + id);
+                    Gdx.app.log("SocketIO","connected to heroku server");
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error getting ID");
+                }
+            }
+        }).on("newPlayer", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    String id = data.getString("id");
+                    Gdx.app.log("SocketIO", "New Player Connect: " + id);
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error getting New PlayerID");
+                }
+            }
+        }).on("playerDisconnected", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    String id = data.getString("id");
+                   // enemyCharacters.remove(id);
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error getting New PlayerID");
+                }
+            }
+        }).on("playerMoved", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    String playerId = data.getString("id");
+                    if (data.getInt("movement") == 0) {
+                        pc.touch(world.getEnemy());
+                    } else {
+                        //pc.swipe(world.getEnemy(), );
+                    }
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error getting New PlayerID");
+                }
+                Gdx.app.log("SocketIO", "Player jumped");
+            }
+        }).on("startGame", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    setGameID(data.getInt("gameID"));
+                    world.createEnemy();
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error starting game");
+                }
+            }
+        }).on("getPlayers", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONArray objects = (JSONArray) args[0];
+                try {
+                    for (int i = 0; i < objects.length(); i++) {
+
+                        Vector3 position = new Vector3();
+                        position.x = ((Double) objects.getJSONObject(i).getDouble("x")).floatValue();
+                        position.y = ((Double) objects.getJSONObject(i).getDouble("y")).floatValue();
+                        //externalPlayer
+                    }
+                } catch (JSONException e) {
+
+                }
+            }
+        });
+    }
+
+    public void updateServer(int movementType) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("movement", movementType);
+            data.put("gameID", this.gameID);
+            socket.emit("playerMoved", data);
+        } catch (JSONException e) {
+            Gdx.app.log("SocketIO", "Error sending update data");
+        }
+    }
     /**
-     * Description
+     * Update method handles input from user, calls all textures update-methods and maked camera follow player
+     *
+     * @param dt Delta time
      */
     @Override
     public void update(float dt) {
@@ -149,6 +297,10 @@ public class PlayView extends SuperView {
 
         camera.position.set(world.getCharacter().getPosition().x + 100, ImpossibleGravity.HEIGHT/2, 0);
         camera.update();
+    }
+
+    public void setGameID(int gameID) {
+        this.gameID = gameID;
     }
 
     /**
@@ -169,6 +321,9 @@ public class PlayView extends SuperView {
         }
 
         sb.draw(world.getCharacter().getSprite(), world.getCharacter().getPosition().x, world.getCharacter().getPosition().y);
+        if (world.doesEnemyExists()) {
+            sb.draw(world.getEnemy().getSprite(), world.getEnemy().getPosition().x, world.getEnemy().getPosition().y);
+        }
 
         world.getCharacter().getScoreFont().setColor(Color.BLACK);
         world.getCharacter().getScoreFont().draw(sb, world.getCharacter().getScoreString(), camera.position.x+(ImpossibleGravity.WIDTH/3), ImpossibleGravity.HEIGHT-30);
