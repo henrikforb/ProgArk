@@ -13,6 +13,6 @@ public class LoadingController {
 
     public void startGame(){
 
-        vc.set(new PlayView(vc, vc.multiplayer));
+        vc.set(new PlayView(vc, vc.getModel().multiplayer));
     }
 }

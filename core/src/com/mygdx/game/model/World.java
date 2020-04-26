@@ -3,7 +3,6 @@ package com.mygdx.game.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.controller.GameController;
 import java.util.Random;
 
@@ -123,7 +122,6 @@ public class World {
 
     public void dispose() {
         character.dispose();
-        enemy.dispose();
         music.dispose();
         grass.dispose();
         heaven.dispose();
