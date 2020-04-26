@@ -139,13 +139,16 @@ public class World {
                 stopMusic();
                 //TODO save score to HighScore
                 gameController.gameOver();
-                networkController.handleDeath();
-                Settings.getInstance().disableMultiplayer();
+                if (enemyExists) {
+                    networkController.handleDeath();
+                    Settings.getInstance().disableMultiplayer();
+                }
             }
         }
         if (enemyDead) {
             stopMusic();
             gameController.gameOver();
+            Settings.getInstance().disableMultiplayer();
         }
     }
 
