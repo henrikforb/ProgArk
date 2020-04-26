@@ -17,6 +17,7 @@ public final class Settings {
     }
 
     private boolean enableGameMusic = true;
+    public boolean multiplayer = false;
     private BitmapFont font;
 
     private Settings(){
@@ -40,6 +41,14 @@ public final class Settings {
 
     public BitmapFont getFont(){
         return this.font;
+    }
+
+    public void toggleMultiplayer(){
+        this.multiplayer = !this.multiplayer;
+    }
+
+    public boolean multiplayerChecked(){
+        return multiplayer;
     }
 
 }

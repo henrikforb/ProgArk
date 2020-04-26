@@ -4,12 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -36,7 +34,6 @@ public class MenuView extends SuperView{
     private HelpBtn helpBtn;
     private HighscoreBtn highscoreBtn;
 
-    private CheckBox checkBox;
     private TextureRegionDrawable checked;
     private TextureRegionDrawable unchecked;
     private Settings settings;
@@ -53,7 +50,6 @@ public class MenuView extends SuperView{
 
         int btnHeight = Gdx.graphics.getHeight() / 7;
         int btnWidth = btnHeight * 2;
-        int checkBoxSize = Gdx.graphics.getHeight() / 50;
 
         CheckBox.CheckBoxStyle checkBoxStyle = new CheckBox.CheckBoxStyle();
         this.checked = new TextureRegionDrawable(new TextureRegion(new Texture("checked.png")));
@@ -61,8 +57,6 @@ public class MenuView extends SuperView{
         checkBoxStyle.checkboxOn = checked;
         checkBoxStyle.checkboxOff = unchecked;
         checkBoxStyle.font = settings.getFont();
-        this.checkBox = new CheckBox(" MULTIPLAYER", checkBoxStyle);
-        this.checkBox.setChecked(menuController.multiplayerChecked());
 
         playBtn.getPlayBtn().setSize(btnWidth, btnHeight);
         settingsBtn.getSettingsBtn().setSize(btnWidth, btnHeight);
@@ -79,8 +73,6 @@ public class MenuView extends SuperView{
                 (float)Gdx.graphics.getHeight() / 5 * 1, Align.center);
         highscoreBtn.getHighScoreBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
                 (float)Gdx.graphics.getHeight() / 6 * 2, Align.center);
-        checkBox.setPosition((float)Gdx.graphics.getWidth() / 5,
-                (float)Gdx.graphics.getHeight() / 5 * 1, Align.center);
 
         this.stage = new Stage(new ScreenViewport());
         startListeners();
@@ -152,7 +144,6 @@ public class MenuView extends SuperView{
         });
 
         // LISTENERS FOR TOUCH GESTURES
-        stage.addActor(checkBox);
 
         playBtn.getPlayBtn().addListener(new ActorGestureListener() {
             @Override
@@ -184,12 +175,6 @@ public class MenuView extends SuperView{
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("quitBtn is touched.");
                 menuController.quit();
-            }
-        });
-
-        checkBox.addListener(new ChangeListener() {
-            public void changed (ChangeEvent event, Actor actor) {
-                menuController.toggleMultiplayer();
             }
         });
 
