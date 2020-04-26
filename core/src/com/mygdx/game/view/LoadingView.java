@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.LoadingController;
+import com.mygdx.game.controller.NetworkController;
+import com.mygdx.game.model.Settings;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,10 +51,11 @@ public class LoadingView extends SuperView{
     }
 
     public void startOnline() {
-        connectSocket();
-        configSocketEvents();
+        NetworkController nc = new NetworkController();
+        nc.connectSocket();
+        nc.configSocketEvents();
     }
-
+    /*
     public void connectSocket() {
         try {
             socket = IO.socket("https://progark-server.herokuapp.com/");
@@ -94,6 +97,8 @@ public class LoadingView extends SuperView{
         });
     }
 
+     */
+
     /**
      * Listeners for touch gestures and checkbox to notice input from the user
      */
@@ -110,11 +115,14 @@ public class LoadingView extends SuperView{
     }
 
     private void startGame(String gameID) {
-        loadingController.startGame(socket, gameID);
+        loadingController.startGame(gameID);
     }
 
     @Override
     public void update(float dt) {
+        if (Settings.getInstance().getStartMultiplayer()){
+            startGame(Settings.getInstance().getId());
+        }
         handleInput();
     }
 

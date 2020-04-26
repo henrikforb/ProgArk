@@ -1,6 +1,7 @@
 package com.mygdx.game.controller;
 
 import com.mygdx.game.model.Character;
+import com.mygdx.game.model.Settings;
 import com.mygdx.game.view.PlayView;
 
 import io.socket.client.Socket;
@@ -13,8 +14,8 @@ public class LoadingController {
         this.vc = vc;
     }
 
-    public void startGame(Socket socket, String gameID){
+    public void startGame(String gameID){
 
-        vc.set(new PlayView(vc, socket, gameID));
+        vc.set(new PlayView(vc, Settings.getInstance().getSocket(), gameID));
     }
 }
