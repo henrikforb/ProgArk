@@ -60,4 +60,8 @@ public final class Settings {
         return this.id;
     }
 
+    public void disableMultiplayer(){
+        this.startMultiplayer = false;
+    }
+
 }

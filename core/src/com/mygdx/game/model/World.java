@@ -140,6 +140,7 @@ public class World {
                 //TODO save score to HighScore
                 gameController.gameOver();
                 networkController.handleDeath();
+                Settings.getInstance().disableMultiplayer();
             }
         }
         if (enemyDead) {
