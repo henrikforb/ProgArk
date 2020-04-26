@@ -15,7 +15,7 @@ public class Cactus extends Obstacle {
         this.position = new Vector3(x, y-5, 0);
         this.height = height;
         this.width = width;
-        this.collision_bounds = new Rectangle(position.x, position.y, width, height);
+        this.collision_bounds = new Rectangle(position.x + width/13, position.y, width - width/13, height - height/16);
 
     }
 }

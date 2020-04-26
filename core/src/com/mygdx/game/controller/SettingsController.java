@@ -8,7 +8,7 @@ public class SettingsController {
     private Settings model;
 
     public SettingsController(ViewController vc) {
-        this.model = vc.sm;
+        this.model = Settings.getInstance();
         this.vc = vc;
     }
 

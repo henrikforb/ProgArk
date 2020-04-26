@@ -19,4 +19,8 @@ public class PauseBtn extends Actor {
     public Image getPauseBtn(){
         return this.pauseBtn;
     }
+
+    public void dispose(){
+        pauseTexture.dispose();
+    }
 }

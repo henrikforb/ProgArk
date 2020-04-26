@@ -2,9 +2,11 @@ package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
+import java.text.DecimalFormat;
+
 /**
  * A players score equal to the time played
- * The score is rendered to screen in the playView
+ * The score is rendered to screen in the PlayView
  */
 
 public class Score {
@@ -12,10 +14,12 @@ public class Score {
     private float score;
     private String scoreString;
     private BitmapFont scoreFont;
+    DecimalFormat numberFormat;
 
     public Score(){
         score = 0;
-        scoreString = "Score: " + score;
+        this.numberFormat = new DecimalFormat("##0.00");
+        scoreString = "Score: " + numberFormat.format(score);
         scoreFont = new BitmapFont();
     }
 
@@ -33,7 +37,7 @@ public class Score {
 
     public void update(float dt){
         score += dt;
-        scoreString = "Score: " + score;
+        scoreString = "Score: " + numberFormat.format(score);
     }
 
     public void dispose() {

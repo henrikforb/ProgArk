@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-// Making texture into a button
 public class PlayBtn extends Actor {
     private Texture playTexture;
     public Image playBtn;
@@ -19,6 +18,10 @@ public class PlayBtn extends Actor {
 
     public Image getPlayBtn(){
         return this.playBtn;
+    }
+
+    public void dispose(){
+        playTexture.dispose();
     }
 
 

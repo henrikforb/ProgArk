@@ -4,7 +4,7 @@ import com.mygdx.game.view.MenuView;
 
 public class GameOverController {
 
-    ViewController vc;
+    private ViewController vc;
 
     public GameOverController(ViewController vc) {
         this.vc = vc;

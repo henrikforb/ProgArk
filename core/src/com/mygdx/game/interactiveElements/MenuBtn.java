@@ -19,4 +19,8 @@ public class MenuBtn extends Actor {
     public Image getMenuBtn(){
         return this.menuBtn;
     }
+
+    public void dispose(){
+        menuTexture.dispose();
+    }
 }

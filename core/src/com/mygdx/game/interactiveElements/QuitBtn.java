@@ -19,4 +19,8 @@ public class QuitBtn extends Actor {
     public Image getQuitBtn(){
         return this.quitBtn;
     }
+
+    public void dispose(){
+        quitTexture.dispose();
+    }
 }

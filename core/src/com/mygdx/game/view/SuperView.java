@@ -7,6 +7,10 @@ import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.model.Background;
 import com.mygdx.game.model.World;
 
+/**
+ * Superclass for views containing camera, mouse and world
+ * Defines methods to be implemented in all views
+ */
 public abstract class SuperView {
 
     protected OrthographicCamera camera;

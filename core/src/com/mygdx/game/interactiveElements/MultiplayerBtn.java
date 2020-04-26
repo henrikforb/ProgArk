@@ -7,6 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+
+/**
+ * Not used as of now. Logic for an alternative menu-solution that was changed
+ */
+
 public class MultiplayerBtn extends Actor {
 
     private Texture multiTexture;
@@ -19,5 +24,9 @@ public class MultiplayerBtn extends Actor {
 
     public Image getMultiplayerBtn(){
         return this.multiplayerBtn;
+    }
+
+    public void dispose(){
+        multiTexture.dispose();
     }
 }

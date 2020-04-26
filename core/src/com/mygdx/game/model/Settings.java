@@ -8,12 +8,18 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 /**
  * Logic for all settings needed: Music enable and volume
  */
-public class Settings {
+public final class Settings {
+
+    private static final Settings INSTANCE = new Settings();
+
+    public static Settings getInstance(){
+        return INSTANCE;
+    }
 
     private boolean enableGameMusic = true;
     private BitmapFont font;
 
-    public Settings(){
+    private Settings(){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Retro Gaming.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = Gdx.graphics.getHeight() / 18;

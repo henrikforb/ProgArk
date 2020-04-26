@@ -18,4 +18,8 @@ public class Text {
         this.textImage = new Image(new TextureRegionDrawable(new TextureRegion(textTexture)));
         return this.textImage;
     }
+
+    public void dispose(){
+        textTexture.dispose();
+    }
 }

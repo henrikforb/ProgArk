@@ -19,4 +19,8 @@ public class SettingsBtn extends Actor {
     public Image getSettingsBtn(){
         return this.settingsBtn;
     }
+
+    public void dispose(){
+        settingsTexture.dispose();
+    }
 }

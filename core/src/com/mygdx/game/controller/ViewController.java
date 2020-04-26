@@ -1,7 +1,5 @@
 package com.mygdx.game.controller;
 
-
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.model.Settings;
 import com.mygdx.game.view.SuperView;
@@ -11,11 +9,10 @@ import java.util.Stack;
 public class ViewController {
 
     private Stack<SuperView> views;
-    public Settings sm;
+
     public boolean multiplayer = false;
 
     public ViewController() {
-        sm = new Settings();
         views = new Stack<SuperView>();
     }
 
