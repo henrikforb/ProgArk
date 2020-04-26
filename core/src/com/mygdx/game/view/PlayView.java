@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.GameController;
 import com.mygdx.game.controller.CharacterController;
+import com.mygdx.game.controller.NetworkController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.interactiveElements.PauseBtn;
@@ -39,6 +40,7 @@ public class PlayView extends SuperView {
 
     protected GameController gameController;
     private CharacterController pc;
+    private NetworkController networkController;
     private Stage stage;
     private World world;
     private boolean multiplayer;
@@ -83,13 +85,14 @@ public class PlayView extends SuperView {
         startListeners();
     }
 
-    public PlayView(ViewController vc, Socket socket, String gameID){
+    public PlayView(ViewController vc, Socket socket, NetworkController nc, String gameID){
 
         this.gameID = gameID;
-        this.world = new World();
+        this.world = new World(nc);
         this.world.createEnemy();
         this.gameController = new GameController(vc, world);
         this.pc = new CharacterController(vc);
+        this.networkController = nc;
 
         this.multiplayer = true;
 
@@ -234,9 +237,8 @@ public class PlayView extends SuperView {
                 JSONObject data = (JSONObject) args[0];
                 try {
                     String id = data.getString("id");
-                   // enemyCharacters.remove(id);
                 } catch (JSONException e) {
-                    Gdx.app.log("SocketIO", "Error getting New PlayerID");
+                    Gdx.app.log("SocketIO", "Error getting disconnect message");
                 }
             }
         }).on("playerMoved", new Emitter.Listener() {
@@ -244,32 +246,21 @@ public class PlayView extends SuperView {
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 try {
-                    String playerId = data.getString("id");
                     if (data.getInt("movement") == 0) {
                         pc.touch(world.getEnemy());
                     } else {
                         pc.swipe(world.getEnemy(), data.getInt("direction"));
                     }
                 } catch (JSONException e) {
-                    Gdx.app.log("SocketIO", "Error getting New PlayerID");
+                    Gdx.app.log("SocketIO", "Error getting movement value or direction");
                 }
-                Gdx.app.log("SocketIO", "Player jumped");
             }
-        }).on("getPlayers", new Emitter.Listener() {
+        }).on("victory", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                JSONArray objects = (JSONArray) args[0];
-                try {
-                    for (int i = 0; i < objects.length(); i++) {
-
-                        Vector3 position = new Vector3();
-                        position.x = ((Double) objects.getJSONObject(i).getDouble("x")).floatValue();
-                        position.y = ((Double) objects.getJSONObject(i).getDouble("y")).floatValue();
-                        //externalPlayer
-                    }
-                } catch (JSONException e) {
-
-                }
+                gameController.gameOver();
+                Gdx.app.log("SocketIO", "Other player died");
+                networkController.disconnect();
             }
         });
     }
@@ -278,13 +269,14 @@ public class PlayView extends SuperView {
         JSONObject data = new JSONObject();
         try {
             data.put("movement", movementType);
-            data.put("direction", movementType);
+            data.put("direction", direction);
             data.put("gameID", this.gameID);
             socket.emit("playerMoved", data);
         } catch (JSONException e) {
             Gdx.app.log("SocketIO", "Error sending update data");
         }
     }
+
     /**
      * Update method handles input from user, calls all textures update-methods and maked camera follow player
      *

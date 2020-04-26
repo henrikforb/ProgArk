@@ -19,8 +19,11 @@ public class GameController {
         }
     }
 
-    public void GameOver(){
+    public void gameOver(){
         vc.set(new GameOverView(new GameOverController(vc)));
+        if (Settings.getInstance().getStartMultiplayer()) {
+
+        }
     }
 
     public void pauseGame(){

@@ -5,6 +5,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.controller.GameController;
+import com.mygdx.game.controller.NetworkController;
+
 import java.util.Random;
 
 /**
@@ -21,6 +23,8 @@ public class World {
 
     private Character enemy;
     private boolean enemyExists = false;
+
+    private NetworkController networkController;
 
     /**
      *  Help attributes for update-method
@@ -39,6 +43,20 @@ public class World {
         music.setLooping(true);
         lastObstacle = System.currentTimeMillis();
         obstacle_occurrence = new Random();
+    }
+
+    public World(NetworkController nc) {
+        grass = new Grass();
+        heaven = new Heaven();
+        obstacleFactory = new ObstacleFactory();
+        character = new Character("playeranimation.png");
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("offLimits.wav"));
+        music.setLooping(true);
+        lastObstacle = System.currentTimeMillis();
+        obstacle_occurrence = new Random();
+
+        this.networkController = nc;
     }
 
     public ObstacleFactory getObstacleFactory(){
@@ -116,7 +134,8 @@ public class World {
             if (obstacle.collides(character.getBounds())) {
                 stopMusic();
                 //TODO save score to HighScore
-                gameController.GameOver();
+                gameController.gameOver();
+                networkController.handleDeath();
             }
         }
     }

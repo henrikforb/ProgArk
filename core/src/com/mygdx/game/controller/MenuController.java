@@ -26,7 +26,7 @@ public class MenuController {
     public void playGamePressed(){
 
         if (multiplayerChecked()) {
-            vc.set(new LoadingView(new LoadingController(vc)));
+            vc.set(new LoadingView(new LoadingController(vc), new NetworkController()));
         }else {
             vc.set(new PlayView(vc));
         }

@@ -47,9 +47,7 @@ public class NetworkController {
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 try {
-                    // startGame("" + data.getInt("gameID"));
-                    Settings.getInstance().setSocket(socket);
-                    Settings.getInstance().enableMultiplayer(""+data.getInt("gameID"), true);
+                    Settings.getInstance().enableMultiplayer(""+data.getInt("gameID"));
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error starting game");
                 }
@@ -57,4 +55,23 @@ public class NetworkController {
         });
     }
 
+    public void handleDeath() {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("death", true);
+            data.put("gameID", Settings.getInstance().getId());
+            socket.emit("playerMoved", data);
+            socket.disconnect();
+        } catch (JSONException e) {
+            Gdx.app.log("SocketIO", "Error sending update data");
+        }
+    }
+
+    public void disconnect() {
+        socket.disconnect();
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
 }

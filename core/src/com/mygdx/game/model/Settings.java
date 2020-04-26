@@ -47,9 +47,9 @@ public final class Settings {
         return this.font;
     }
 
-    public void enableMultiplayer(String id, boolean x){
+    public void enableMultiplayer(String id){
         this.id = id;
-        this.startMultiplayer = x;
+        this.startMultiplayer = true;
     }
 
     public boolean getStartMultiplayer(){
@@ -58,14 +58,6 @@ public final class Settings {
 
     public String getId(){
         return this.id;
-    }
-
-    public void setSocket(Socket socket){
-        this.socket = socket;
-    }
-
-    public Socket getSocket(){
-        return this.socket;
     }
 
 }

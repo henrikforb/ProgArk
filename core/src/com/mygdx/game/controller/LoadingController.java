@@ -14,8 +14,8 @@ public class LoadingController {
         this.vc = vc;
     }
 
-    public void startGame(String gameID){
+    public void startGame(String gameID, NetworkController nc){
 
-        vc.set(new PlayView(vc, Settings.getInstance().getSocket(), gameID));
+        vc.set(new PlayView(vc, nc.getSocket(), nc, gameID));
     }
 }

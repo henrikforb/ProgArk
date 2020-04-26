@@ -12,14 +12,6 @@ import com.mygdx.game.controller.LoadingController;
 import com.mygdx.game.controller.NetworkController;
 import com.mygdx.game.model.Settings;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-
 /**
  * View for loanding screen while waiting to connect with another player in multiplayer mode
  * LoadingScreen can be displayed when a while-loop is true in another controller
@@ -27,14 +19,15 @@ import io.socket.emitter.Emitter;
 public class LoadingView extends SuperView{
 
     protected LoadingController loadingController;
+    private NetworkController networkController;
     private Stage stage;
     private Texture loadingBar;
     private Image loadingBarImage;
-    private Socket socket;
 
-    public LoadingView(final LoadingController loadingController){
+    public LoadingView(final LoadingController lc, final NetworkController nc){
 
-        this.loadingController = loadingController;
+        this.loadingController = lc;
+        this.networkController = nc;
         this.loadingBar = new Texture("loadingBar.png");
         this.loadingBarImage = new Image(loadingBar);
         this.stage = new Stage(new ScreenViewport());
@@ -51,9 +44,8 @@ public class LoadingView extends SuperView{
     }
 
     public void startOnline() {
-        NetworkController nc = new NetworkController();
-        nc.connectSocket();
-        nc.configSocketEvents();
+        this.networkController.connectSocket();
+        this.networkController.configSocketEvents();
     }
     /*
     public void connectSocket() {
@@ -115,7 +107,7 @@ public class LoadingView extends SuperView{
     }
 
     private void startGame(String gameID) {
-        loadingController.startGame(gameID);
+        loadingController.startGame(gameID, this.networkController);
     }
 
     @Override
