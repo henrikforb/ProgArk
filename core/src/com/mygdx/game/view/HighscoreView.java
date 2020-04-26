@@ -152,7 +152,8 @@ public class HighscoreView extends SuperView {
 
         int j = 9;
 
-        for (int i = 0; i < 5; i++){
+
+        for (int i = 0; i < this.highScores.size() && i < 5 ; i++){
 
             fontScores.draw(sb, "" + (i+1) + ".", (ImpossibleGravity.WIDTH)/2-95, ImpossibleGravity.HEIGHT*j/12);
             fontScores.draw(sb, numberFormat.format(this.highScores.get(i)) + " points", (ImpossibleGravity.WIDTH)/2-50, ImpossibleGravity.HEIGHT*j/12);
