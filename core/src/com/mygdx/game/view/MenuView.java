@@ -70,7 +70,7 @@ public class MenuView extends SuperView{
         helpBtn.getHelpBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
                 (float)Gdx.graphics.getHeight() / 6 * 3, Align.center);
         quitBtn.getQuitBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
-                (float)Gdx.graphics.getHeight() / 5 * 1, Align.center);
+                (float)Gdx.graphics.getHeight() / 6 * 1, Align.center);
         highscoreBtn.getHighScoreBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
                 (float)Gdx.graphics.getHeight() / 6 * 2, Align.center);
 
