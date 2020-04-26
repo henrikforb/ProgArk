@@ -46,6 +46,7 @@ public class PlayView extends SuperView {
     private boolean multiplayer;
     private String gameID;
 
+
     // private HashMap<String, Character> enemyCharacters;
 
     private Socket socket;
@@ -258,9 +259,10 @@ public class PlayView extends SuperView {
         }).on("victory", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                gameController.gameOver();
+                world.setEnemyDead();
                 Gdx.app.log("SocketIO", "Other player died");
                 networkController.disconnect();
+                System.out.println("disconnected");
             }
         });
     }
@@ -276,6 +278,7 @@ public class PlayView extends SuperView {
             Gdx.app.log("SocketIO", "Error sending update data");
         }
     }
+
 
     /**
      * Update method handles input from user, calls all textures update-methods and maked camera follow player

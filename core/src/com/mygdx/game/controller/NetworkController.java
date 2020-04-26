@@ -58,10 +58,10 @@ public class NetworkController {
     public void handleDeath() {
         JSONObject data = new JSONObject();
         try {
-            data.put("death", true);
             data.put("gameID", Settings.getInstance().getId());
-            socket.emit("playerMoved", data);
+            socket.emit("death", data);
             socket.disconnect();
+            System.out.println("disconnected");
         } catch (JSONException e) {
             Gdx.app.log("SocketIO", "Error sending update data");
         }

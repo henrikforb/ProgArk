@@ -3,7 +3,6 @@ package com.mygdx.game.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.controller.GameController;
 import com.mygdx.game.controller.NetworkController;
 
@@ -23,6 +22,7 @@ public class World {
 
     private Character enemy;
     private boolean enemyExists = false;
+    private boolean enemyDead = false;
 
     private NetworkController networkController;
 
@@ -84,6 +84,10 @@ public class World {
         return enemy;
     }
 
+    public void setEnemyDead() {
+        enemyDead = true;
+    }
+
     public boolean getEnemyExists() {
         return this.enemyExists;
     }
@@ -137,6 +141,10 @@ public class World {
                 gameController.gameOver();
                 networkController.handleDeath();
             }
+        }
+        if (enemyDead) {
+            stopMusic();
+            gameController.gameOver();
         }
     }
 
