@@ -9,11 +9,11 @@ import java.util.Stack;
 public class ViewController {
 
     private Stack<SuperView> views;
-
-    public boolean multiplayer = false;
+    private Settings settings;
 
     public ViewController() {
         views = new Stack<SuperView>();
+        settings = Settings.getInstance();
     }
 
     public void push(SuperView view){
@@ -42,12 +42,8 @@ public class ViewController {
         views.peek().render(sb);
     }
 
-    public void toggleMultiplayer(){
-        this.multiplayer = !this.multiplayer;
-    }
-
-    public boolean multiplayerChecked(){
-        return multiplayer;
+    public Settings getModel(){
+        return settings;
     }
 
 }

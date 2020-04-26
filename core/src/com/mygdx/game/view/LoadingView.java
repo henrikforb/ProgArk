@@ -22,18 +22,26 @@ public class LoadingView extends SuperView{
     private NetworkController networkController;
     private Stage stage;
     private Texture loadingBar;
+    private Texture loadingText;
     private Image loadingBarImage;
+    private Image loadingTextImage;
 
     public LoadingView(final LoadingController lc, final NetworkController nc){
 
         this.loadingController = lc;
         this.networkController = nc;
         this.loadingBar = new Texture("loadingBar.png");
+        this.loadingText = new Texture("loading.png");
         this.loadingBarImage = new Image(loadingBar);
+        this.loadingTextImage = new Image(loadingText);
         this.stage = new Stage(new ScreenViewport());
 
         loadingBarImage.setSize((float) Gdx.graphics.getWidth() / 10 * 7, (float)Gdx.graphics.getHeight() / 2);
         loadingBarImage.setPosition((float)Gdx.graphics.getWidth() / 2, (float)Gdx.graphics.getHeight() / 5 * 3, Align.center);
+
+        loadingTextImage.setSize((float) Gdx.graphics.getWidth() / 2, (float)Gdx.graphics.getHeight() / 4);
+        loadingTextImage.setPosition((float)Gdx.graphics.getWidth() / 2, (float)Gdx.graphics.getHeight() / 6, Align.center);
+
         startListeners();
         startOnline();
     }
@@ -98,6 +106,7 @@ public class LoadingView extends SuperView{
     public void startListeners() {
         Gdx.input.setInputProcessor(stage);
         stage.addActor(loadingBarImage);
+        stage.addActor(loadingTextImage);
 
     }
 

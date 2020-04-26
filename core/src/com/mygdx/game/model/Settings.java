@@ -19,16 +19,16 @@ public final class Settings {
     }
 
     private boolean enableGameMusic = true;
+    public boolean multiplayer = false;
     private BitmapFont font;
     private boolean startMultiplayer = false;
     private String id = "";
-    private Socket socket;
 
     private Settings(){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Retro Gaming.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = Gdx.graphics.getHeight() / 18;
-        parameter.color = Color.BLACK;
+        parameter.color = Color.valueOf("#ff6f00"); // can be changed to orange to match buttons
         this.font = generator.generateFont(parameter);
         generator.dispose();
     }
@@ -60,8 +60,16 @@ public final class Settings {
         return this.id;
     }
 
-    public void disableMultiplayer(){
+    public void disableMultiplayer() {
         this.startMultiplayer = false;
+    }
+
+    public void toggleMultiplayer(){
+        this.multiplayer = !this.multiplayer;
+    }
+
+    public boolean multiplayerChecked() {
+        return multiplayer;
     }
 
 }
