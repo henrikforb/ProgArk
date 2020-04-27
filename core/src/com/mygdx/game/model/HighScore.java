@@ -29,7 +29,9 @@ public class HighScore {
             //this.fileLocation = fileLocation;
 
         }
-
+    /**
+     *Method compares the current scores with the new score and decides if the new score is large enough to be added in the highscorelist
+     */
         public boolean shouldScoreBeAdded(ArrayList<Double> currentScores, Double scoreToEvaluate) {
             if (currentScores.size() < this.highScoreEntriesLimit) {
                 return true;
@@ -42,6 +44,9 @@ public class HighScore {
             return false;
         }
 
+    /**
+     *Loads the highscorelist from file and returns it as an array with the scores
+     */
         public ArrayList<Double> loadHighScoreFromFile() {
             try {
                 Gson gson = new Gson();
@@ -55,7 +60,9 @@ public class HighScore {
                 return new ArrayList<Double>();
             }
         }
-
+    /**
+     *Updates the file with new highscores
+     */
         public void writeHighScoreToFile(ArrayList<Double> scores) {
             Gson gson = new Gson();
             try {
@@ -68,7 +75,9 @@ public class HighScore {
                 System.out.println("huff da skrive til fil");
             }
         }
-
+    /**
+     *Adds the new score to the array with highscores and uses the method to add the new highscore list to file
+     */
         public void addScoreToHighScore(Double newScore) {
             ArrayList<Double> currentScores = loadHighScoreFromFile();
             if (shouldScoreBeAdded(currentScores, newScore)) {
