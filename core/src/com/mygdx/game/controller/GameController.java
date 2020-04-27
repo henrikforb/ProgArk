@@ -19,8 +19,8 @@ public class GameController {
         }
     }
 
-    public void gameOver(){
-        vc.set(new GameOverView(new GameOverController(vc)));
+    public void gameOver(boolean multiplayer, boolean enemyDied){
+        vc.set(new GameOverView(new GameOverController(vc), multiplayer, enemyDied));
     }
 
     public void pauseGame(){

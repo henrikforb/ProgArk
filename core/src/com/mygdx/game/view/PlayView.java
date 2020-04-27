@@ -156,10 +156,7 @@ public class PlayView extends SuperView {
         });
     }
 
-    /**
-     * Inputs from the user calls on a function for the character
-     * The action is defined in the characters Player model
-     */
+
     @Override
     protected void handleInput() {
     }
