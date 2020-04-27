@@ -136,13 +136,13 @@ public class World {
          * Checks the speed of character to make obstacle occurrence proportional with speed
          */
 
-        if (online) {
+        if (online && Settings.getInstance().getQueueSizeTime() != 0) {
             if (System.currentTimeMillis() - lastObstacle >= 900 + Settings.getInstance().getNextTime()) {
                 obstacleFactory.update(dt, camera, getCharacter(), getGrass());
                 lastObstacle = System.currentTimeMillis();
                 Settings.getInstance().removeFirstTime();
             }
-        } else {
+        } else if (!online) {
             if (System.currentTimeMillis() - lastObstacle >= 900 + obstacle_occurrence.nextInt((2000-character.getSpeed()))) {
                 obstacleFactory.update(dt, camera, getCharacter(), getGrass());
                 lastObstacle = System.currentTimeMillis();

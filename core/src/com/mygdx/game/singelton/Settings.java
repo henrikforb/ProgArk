@@ -120,4 +120,8 @@ public final class Settings {
         nextObstacleHeight.clear();
     }
 
+    public int getQueueSizeTime(){
+        return nextTime.size;
+    }
+
 }
