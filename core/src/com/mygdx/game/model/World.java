@@ -144,16 +144,18 @@ public class World {
                 double score = character.getScore();
                 highScore.addScoreToHighScore(score);
                 //TODO save score to HighScore
-                gameController.gameOver();
                 if (enemyExists) {
+                    gameController.gameOver(true,false);
                     networkController.handleDeath();
                     Settings.getInstance().setMultiplayerNotReady();
+                } else {
+                    gameController.gameOver(false, false);
                 }
             }
         }
         if (enemyDead) {
             stopMusic();
-            gameController.gameOver();
+            gameController.gameOver(true, true);
             Settings.getInstance().setMultiplayerNotReady();
         }
     }

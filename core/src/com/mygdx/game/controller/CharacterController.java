@@ -19,10 +19,6 @@ public class CharacterController {
         character.switchGravity(direction);
     }
 
-    public void gameOver(){
-        vc.set(new GameOverView(new GameOverController(vc)));
-    }
-
 
 
 }
