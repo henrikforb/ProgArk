@@ -60,6 +60,7 @@ public class NetworkController {
         try {
             data.put("gameID", Settings.getInstance().getId());
             socket.emit("death", data);
+            socket.off();
             socket.disconnect();
             System.out.println("disconnected");
         } catch (JSONException e) {
@@ -68,6 +69,7 @@ public class NetworkController {
     }
 
     public void disconnect() {
+        socket.off();
         socket.disconnect();
     }
 
