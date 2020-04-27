@@ -35,6 +35,7 @@ public class ImpossibleGravity extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+		System.out.println(System.currentTimeMillis());
 		Settings.getInstance();
 		batch = new SpriteBatch();
 		vc = new ViewController();

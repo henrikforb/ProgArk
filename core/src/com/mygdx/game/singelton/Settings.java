@@ -15,6 +15,7 @@ public final class Settings {
     private Queue<Integer> nextObstacles;
     private Queue<Integer> nextObstacleHeight;
     private Queue<Integer> nextTime;
+    private int obstacleTime;
 
     public static Settings getInstance(){
         return INSTANCE;
@@ -58,6 +59,7 @@ public final class Settings {
     public void multiplayerReady(String id){
         this.id = id;
         this.mutiplayerReady = true;
+        this.obstacleTime = (int)System.currentTimeMillis();
         System.out.println("Multiplayer is set to ready");
     }
 
@@ -126,6 +128,14 @@ public final class Settings {
 
     public int getQueueSizeTime(){
         return nextTime.size;
+    }
+
+    public void setObstacleTime(int time){
+        obstacleTime = time;
+    }
+
+    public int getObstacleTime(){
+        return obstacleTime;
     }
 
 }

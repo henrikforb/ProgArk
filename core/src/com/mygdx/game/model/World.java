@@ -132,14 +132,14 @@ public class World {
 
 
         /**
-         * Updates the ObstacleFactory to generate a new obstacle every 0,9 sec + random up tp 2 sec
+         * Updates the ObstacleFactory to generate a new obstacle every 0,9 sec + random up tp 2 sec when offline
          * Checks the speed of character to make obstacle occurrence proportional with speed
          */
 
         if (online && Settings.getInstance().getQueueSizeTime() != 0) {
-            if (System.currentTimeMillis() - lastObstacle >= 900 + Settings.getInstance().getNextTime()) {
+            if (System.currentTimeMillis() - Settings.getInstance().getObstacleTime() >= 900 + Settings.getInstance().getNextTime()) {
                 obstacleFactory.update(dt, camera, getCharacter(), getGrass());
-                lastObstacle = System.currentTimeMillis();
+                Settings.getInstance().setObstacleTime((int)System.currentTimeMillis());
                 Settings.getInstance().removeFirstTime();
             }
         } else if (!online) {
