@@ -51,6 +51,7 @@ public class ObstacleFactory {
         if (online){
             chosenObstacle = Settings.getInstance().getNextObstacle();
             chosenHeight = 50 + Settings.getInstance().getNextObstacleHeight();
+            Settings.getInstance().removeFirstFromQueue();
         } else {
             chosenObstacle = random.nextInt(11);
             chosenHeight = 50 + random.nextInt(50);
