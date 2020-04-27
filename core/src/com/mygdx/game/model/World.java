@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.mygdx.game.controller.GameController;
 import com.mygdx.game.controller.NetworkController;
 
+import java.util.Queue;
 import java.util.Random;
 
 import com.mygdx.game.singelton.Settings;
@@ -35,6 +36,7 @@ public class World {
       */
     private long lastObstacle;
     private Random obstacle_occurrence;
+    private Queue<Integer> obstacleTimes;
 
     public World() {
         online = false;
@@ -42,7 +44,7 @@ public class World {
         heaven = new Heaven();
         obstacleFactory = new ObstacleFactory(false);
 
-        character = new Character("playeranimation.png");
+        character = new Character("playeranimation.png", 0);
 
         music = Gdx.audio.newMusic(Gdx.files.internal("offLimits.wav"));
         music.setLooping(true);
@@ -55,7 +57,7 @@ public class World {
         grass = new Grass();
         heaven = new Heaven();
         obstacleFactory = new ObstacleFactory(true);
-        character = new Character("playeranimation.png");
+        character = new Character("playeranimation.png", 0);
         System.out.println("online");
 
         music = Gdx.audio.newMusic(Gdx.files.internal("offLimits.wav"));
@@ -70,8 +72,9 @@ public class World {
         return obstacleFactory;
     }
 
-    public void setNextObstacle(int obstacle, int height) {
-        this.obstacleFactory.setNextObstacle(obstacle, height);
+    public void addNextObstacle(int obstacle, int height, int time) {
+        this.obstacleTimes.add(time);
+        this.obstacleFactory.addNextObstacle(obstacle, height);
     }
 
     public Grass getGrass() {
@@ -87,7 +90,7 @@ public class World {
     }
 
     public void createEnemy() {
-        this.enemy = new Character("playeranimation_multi.png");
+        this.enemy = new Character("playeranimation_multi.png", 60);
         this.enemyExists = true;
     }
 
@@ -134,11 +137,19 @@ public class World {
          * Updates the ObstacleFactory to generate a new obstacle every 0,5 sec + random up tp 2 sec
          * Checks the speed of character to make obstacle occurrence proportional with speed
          */
-
-        if (System.currentTimeMillis() - lastObstacle >= 900 + obstacle_occurrence.nextInt((2000-character.getSpeed()))) {
-            obstacleFactory.update(dt, camera, getCharacter(), getGrass());
-            lastObstacle = System.currentTimeMillis();
+        if (online) {
+            if (System.currentTimeMillis() - lastObstacle >= 900 + obstacleTimes.peek()) {
+                obstacleFactory.update(dt, camera, getCharacter(), getGrass());
+                lastObstacle = System.currentTimeMillis();
+                obstacleTimes.poll();
+            }
+        } else {
+            if (System.currentTimeMillis() - lastObstacle >= 900 + obstacle_occurrence.nextInt((2000-character.getSpeed()))) {
+                obstacleFactory.update(dt, camera, getCharacter(), getGrass());
+                lastObstacle = System.currentTimeMillis();
+            }
         }
+
 
         /**
          * Updates all the obstacles and checks for collision with player

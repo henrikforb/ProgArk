@@ -27,7 +27,7 @@ public class Character {
     private long increaseSpeedCounter;
     private Animation playerAnimation;
 
-    public Character(String texturePath) {
+    public Character(String texturePath, int posOffset) {
         player = new Sprite(new Texture(texturePath));
         position = new Vector3(ImpossibleGravity.WIDTH / 2 - player.getWidth() / 3, -ImpossibleGravity.HEIGHT / 2, 0);
         bounds = new Rectangle(position.x, position.y, player.getWidth() / 3 - (player.getWidth()/3)/6 , player.getHeight());

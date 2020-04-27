@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.ImpossibleGravity;
 
+import java.util.Queue;
 import java.util.Random;
 
 /**
@@ -22,15 +23,19 @@ public class ObstacleFactory {
     private int chosenWidth;
 
     private boolean online;
-    private int nextObstacle = 10;  // initiated with standard values in case the server hasn't
-    private int nextObstacleHeight = 25; // transmitted any yet
+    private Queue<Integer> nextObstacles;
+    private Queue<Integer> nextObstacleHeights;
+
 
 
     public ObstacleFactory(boolean online) {
         this.online = online;
-        if (!online) {
+        if (online) {
+            addNextObstacle(10, 25);
+        } else {
             random = new Random();
         }
+
         obstacles = new Array<Obstacle>();
     }
 
@@ -45,11 +50,19 @@ public class ObstacleFactory {
      * If online, the values chosen obstacle and chosenHeight will be recieved from the server instead
      *
      */
+    //TODO: fiks dette rotet
+
     public Obstacle generateObstacle(Character character, Grass grass) {
 
         if (online){
-            chosenObstacle = this.nextObstacle;
-            chosenHeight = 50 + this.nextObstacleHeight;
+            if (!this.nextObstacles.isEmpty()) {
+                chosenObstacle = this.nextObstacles.poll();
+                chosenHeight = 50 + this.nextObstacleHeights.poll();
+            } else {
+                chosenObstacle = 9;
+                chosenHeight = 50 + 25;
+            }
+
         } else {
             chosenObstacle = random.nextInt(11);
             chosenHeight = 50 + random.nextInt(50);
@@ -87,9 +100,9 @@ public class ObstacleFactory {
         }
     }
 
-    public void setNextObstacle(int obstacle, int height) {
-        this.nextObstacle = obstacle;
-        this.nextObstacleHeight = height;
+    public void addNextObstacle(int obstacle, int height) {
+        this.nextObstacles.add(obstacle);
+        this.nextObstacleHeights.add(height);
     }
 
     /**
