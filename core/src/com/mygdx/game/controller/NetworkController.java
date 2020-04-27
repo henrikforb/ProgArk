@@ -105,12 +105,12 @@ public class NetworkController {
         }).on("nextObstacle", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                if (Settings.getInstance().getMutiplayerReady()) {
+                if (worldIsSet() && Settings.getInstance().getMutiplayerReady()) {
                     JSONObject data = (JSONObject) args[0];
                     try {
                         int obstacle = (int) data.getDouble("obstacle");
                         int height = (int) data.getDouble("height");
-                        world.getObstacleFactory().setNextObstacle(obstacle, height);
+                        //world.setNextObstacle(obstacle, height);
                         Gdx.app.log("SocketIO", "obstacle: "+ obstacle + " height: " + height);
                     } catch (JSONException e) {
                         Gdx.app.log("SocketIO", "Error receiving obstacle");
@@ -159,6 +159,10 @@ public class NetworkController {
 
     public void setWorld(World world){
         this.world = world;
+    }
+
+    private boolean worldIsSet() {
+        return this.world != null;
     }
 
     public void setGameID(String gameID){

@@ -70,6 +70,10 @@ public class World {
         return obstacleFactory;
     }
 
+    public void setNextObstacle(int obstacle, int height) {
+        this.obstacleFactory.setNextObstacle(obstacle, height);
+    }
+
     public Grass getGrass() {
         return grass;
     }
