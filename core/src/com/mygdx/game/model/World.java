@@ -137,7 +137,7 @@ public class World {
          */
 
         if (online && Settings.getInstance().getQueueSizeTime() != 0) {
-            if (System.currentTimeMillis() - Settings.getInstance().getObstacleTime() >= 900 + Settings.getInstance().getNextTime()) {
+            if (System.currentTimeMillis() - Settings.getInstance().getObstacleTime() >= 500 + Settings.getInstance().getNextTime()) {
                 obstacleFactory.update(dt, camera, getCharacter(), getGrass());
                 Settings.getInstance().setObstacleTime(System.currentTimeMillis());
                 Settings.getInstance().removeFirstTime();
