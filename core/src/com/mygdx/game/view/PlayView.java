@@ -4,9 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import com.badlogic.gdx.math.Vector3;
-
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,14 +19,6 @@ import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.interactiveElements.PauseBtn;
 import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.World;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 
 /**
  * The view shown when a game is playing
@@ -57,30 +46,11 @@ public class PlayView extends SuperView {
 
         this.multiplayer = false;
 
-        this.pauseBtn = new PauseBtn();
-        this.menuBtn = new MenuBtn();
-
-        stage = new Stage(new ScreenViewport());
-
-        int btnHeight = Gdx.graphics.getHeight() / 10;
-        int btnWidth = btnHeight * 2;
-
-        menuBtn.getMenuBtn().setSize(btnWidth, btnHeight);
-        pauseBtn.getPauseBtn().setSize(btnWidth, btnHeight);
-
-        menuBtn.getMenuBtn().setPosition(
-                (float)btnWidth/4,
-                Gdx.graphics.getHeight() - (float)btnHeight/4,
-                Align.topLeft);
-
-        pauseBtn.getPauseBtn().setPosition(
-                btnWidth + (float)btnWidth/4*2,
-                Gdx.graphics.getHeight() - (float)btnHeight/4,
-                Align.topLeft);
+        initializeStage();
         startListeners();
     }
 
-    public PlayView(ViewController vc, Socket socket, NetworkController nc, String gameID){
+    public PlayView(ViewController vc, NetworkController nc, String gameID){
 
         this.world = new World(nc);
         this.world.createEnemy();
@@ -93,6 +63,11 @@ public class PlayView extends SuperView {
 
         this.multiplayer = true;
 
+        initializeStage();
+        startListeners();
+    }
+
+    private void initializeStage(){
         this.pauseBtn = new PauseBtn();
         this.menuBtn = new MenuBtn();
 
@@ -113,8 +88,6 @@ public class PlayView extends SuperView {
                 btnWidth + (float)btnWidth/4*2,
                 Gdx.graphics.getHeight() - (float)btnHeight/4,
                 Align.topLeft);
-
-        startListeners();
     }
 
     /**
