@@ -79,7 +79,7 @@ public class LoadingView extends SuperView{
 
     @Override
     public void update(float dt) {
-        if (Settings.getInstance().getStartMultiplayer()){
+        if (Settings.getInstance().getMutiplayerReady()){
             startGame(Settings.getInstance().getId());
         }
         handleInput();

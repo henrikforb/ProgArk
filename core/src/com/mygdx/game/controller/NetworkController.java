@@ -47,7 +47,8 @@ public class NetworkController {
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 try {
-                    Settings.getInstance().enableMultiplayer(""+data.getInt("gameID"));
+                    Settings.getInstance().multiplayerReady(""+data.getInt("gameID"));
+                    System.out.println("Was told by server to start game");
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error starting game");
                 }

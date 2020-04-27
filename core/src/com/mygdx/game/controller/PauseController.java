@@ -28,6 +28,7 @@ public class PauseController {
             world.playMusic();
         }
         vc.pop();
+
     }
 
     public void settings(){

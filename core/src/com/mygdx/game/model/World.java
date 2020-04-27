@@ -145,14 +145,14 @@ public class World {
                 gameController.gameOver();
                 if (enemyExists) {
                     networkController.handleDeath();
-                    Settings.getInstance().disableMultiplayer();
+                    Settings.getInstance().setMultiplayerNotReady();
                 }
             }
         }
         if (enemyDead) {
             stopMusic();
             gameController.gameOver();
-            Settings.getInstance().disableMultiplayer();
+            Settings.getInstance().setMultiplayerNotReady();
         }
     }
 

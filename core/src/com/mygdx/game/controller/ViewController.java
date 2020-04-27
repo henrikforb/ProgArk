@@ -18,15 +18,11 @@ public class ViewController {
 
     public void push(SuperView view){
         views.push(view);
-        System.out.println("pushed view: "+view);
-        System.out.println(views);
     }
 
     public void pop(){
-        SuperView view = views.pop();
+        views.pop();
         views.peek().startListeners();
-        System.out.println("pushed view: "+ view);
-        System.out.println(views);
     }
 
     public SuperView peek(){

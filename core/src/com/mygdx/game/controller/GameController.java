@@ -15,20 +15,18 @@ public class GameController {
         this.vc = vc;
         this.world = world;
         if (Settings.getInstance().gameMusicIsEnabled()) {
-            world.playMusic();
+            this.world.playMusic();
         }
     }
 
     public void gameOver(){
         vc.set(new GameOverView(new GameOverController(vc)));
-        if (Settings.getInstance().getStartMultiplayer()) {
-
-        }
     }
 
     public void pauseGame(){
         world.pauseMusic();
         vc.push(new PauseView(new PauseController(vc, world)));
+        System.out.println("game paused");
     }
 
     public void quitGame(){

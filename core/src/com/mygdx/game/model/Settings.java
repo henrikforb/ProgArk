@@ -21,7 +21,7 @@ public final class Settings {
     private boolean enableGameMusic = true;
     public boolean multiplayer = false;
     private BitmapFont font;
-    private boolean startMultiplayer = false;
+    private boolean mutiplayerReady = false;
     private String id = "";
 
     private Settings(){
@@ -47,21 +47,23 @@ public final class Settings {
         return this.font;
     }
 
-    public void enableMultiplayer(String id){
+    public void multiplayerReady(String id){
         this.id = id;
-        this.startMultiplayer = true;
+        this.mutiplayerReady = true;
+        System.out.println("Multiplayer is set to ready");
     }
 
-    public boolean getStartMultiplayer(){
-        return this.startMultiplayer;
+    public boolean getMutiplayerReady(){
+        return this.mutiplayerReady;
     }
 
     public String getId(){
         return this.id;
     }
 
-    public void disableMultiplayer() {
-        this.startMultiplayer = false;
+    public void setMultiplayerNotReady() {
+        this.mutiplayerReady = false;
+        System.out.println("Multiplayer is set to NOT ready");
     }
 
     public void toggleMultiplayer(){
