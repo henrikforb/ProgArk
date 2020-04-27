@@ -19,6 +19,7 @@ public class HighScoreController {
         vc.set(new MenuView(new MenuController(vc)));
     }
 
+
     public BitmapFont getFont(){
         return sm.getFont();
     }

@@ -19,7 +19,9 @@ import com.mygdx.game.model.HighScore;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-// Can develop this one later, but a low priority as of now.
+/**
+ * View for a local highscorelist with the players own top 5 results
+ */
 public class HighscoreView extends SuperView {
 
     private HighScoreController highScoreController;
@@ -119,7 +121,9 @@ public class HighscoreView extends SuperView {
 
 
     }
-
+    /**
+     *Method for making the squares behind the highscoreList
+     */
     private void drawHighScoreSquare(){
         float rectStartX = ImpossibleGravity.WIDTH/2 - ImpossibleGravity.WIDTH/6;
         float rectStartY = 150;
@@ -136,6 +140,9 @@ public class HighscoreView extends SuperView {
         sr.end();
     }
 
+    /**
+     * Method for writing the header and top 5 results of the players scores
+     */
     private void writeToScreen(SpriteBatch sb){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Retro Gaming.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
