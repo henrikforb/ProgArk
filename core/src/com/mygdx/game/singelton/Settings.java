@@ -111,6 +111,10 @@ public final class Settings {
         return nextObstacles.size;
     }
 
+    public int getQueueSizeHeight(){
+        return nextObstacleHeight.size;
+    }
+
     public void emptyQueue(){
         nextObstacles.clear();
         nextObstacleHeight.clear();
