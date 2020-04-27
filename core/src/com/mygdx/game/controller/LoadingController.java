@@ -6,14 +6,16 @@ import com.mygdx.game.view.PlayView;
 public class LoadingController {
 
     private ViewController vc;
+    private PlayView playView;
 
-    public LoadingController(ViewController vc) {
+    public LoadingController(ViewController vc, NetworkController nc) {
         this.vc = vc;
+        playView = new PlayView(vc, nc);
     }
 
-    public void startGame(String gameID, NetworkController nc){
+    public void startGame(){
 
-        vc.set(new PlayView(vc, nc, gameID));
+        vc.set(playView);
     }
 
     public void quitGame(){

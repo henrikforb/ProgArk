@@ -43,7 +43,7 @@ public class World {
         heaven = new Heaven();
         obstacleFactory = new ObstacleFactory(false);
 
-        character = new Character("playeranimation.png");
+        character = new Character("playeranimation.png", 100);
 
         music = Gdx.audio.newMusic(Gdx.files.internal("offLimits.wav"));
         music.setLooping(true);
@@ -56,7 +56,7 @@ public class World {
         grass = new Grass();
         heaven = new Heaven();
         obstacleFactory = new ObstacleFactory(true);
-        character = new Character("playeranimation.png");
+        character = new Character("playeranimation.png", 0);
         System.out.println("online");
 
         music = Gdx.audio.newMusic(Gdx.files.internal("offLimits.wav"));
@@ -84,7 +84,7 @@ public class World {
     }
 
     public void createEnemy() {
-        this.enemy = new Character("playeranimation_multi.png");
+        this.enemy = new Character("playeranimation_multi.png", 0);
         this.enemyExists = true;
     }
 
@@ -157,9 +157,9 @@ public class World {
                     if (online) {
                         networkController.handleDeath();
                         Settings.getInstance().setMultiplayerNotReady();
-                    } else {
-                        gameController.gameOver(false, false);
                     }
+                } else {
+                    gameController.gameOver(false, false);
                 }
             }
         }

@@ -11,6 +11,7 @@ import io.socket.emitter.Emitter;
 
 import com.mygdx.game.controller.MenuController;
 import com.mygdx.game.controller.ViewController;
+import com.mygdx.game.singelton.Settings;
 import com.mygdx.game.view.MenuView;
 
 
@@ -34,6 +35,7 @@ public class ImpossibleGravity extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+		Settings.getInstance();
 		batch = new SpriteBatch();
 		vc = new ViewController();
 		Gdx.gl.glClearColor(1, 0, 0, 1);

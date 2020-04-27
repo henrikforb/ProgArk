@@ -42,6 +42,7 @@ public class NetworkController {
                 JSONObject data = (JSONObject) args[0];
                 try {
                     String id = data.getString("id");
+                    gameID = id;
                     Gdx.app.log("SocketIO", "My ID: " + id);
                     Gdx.app.log("SocketIO","connected to heroku server");
                 } catch (JSONException e) {

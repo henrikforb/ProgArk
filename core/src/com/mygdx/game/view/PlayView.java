@@ -50,7 +50,7 @@ public class PlayView extends SuperView {
         startListeners();
     }
 
-    public PlayView(ViewController vc, NetworkController nc, String gameID){
+    public PlayView(ViewController vc, NetworkController nc){
 
         this.world = new World(nc);
         this.world.createEnemy();
@@ -59,7 +59,6 @@ public class PlayView extends SuperView {
         this.networkController = nc;
         nc.setCharacterController(this.pc);
         nc.setWorld(this.world);
-        nc.setGameID(gameID);
 
         this.multiplayer = true;
 
@@ -150,7 +149,9 @@ public class PlayView extends SuperView {
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("menuBtn is touched.");
                 gameController.quitGame();
-                networkController.disconnect();
+                if (multiplayer) {
+                    networkController.disconnect();
+                }
                 dispose();
             }
         });

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
+import com.mygdx.game.singelton.Settings;
 
 /**
  * The player containing the interaction logic and movement of player
@@ -14,12 +15,14 @@ import com.mygdx.game.ImpossibleGravity;
 public class Character {
 
     private int SPEED = 100;
+    private boolean speedSet = false;
     private Sprite player;
     private Vector3 position;
     private Rectangle bounds;
     private float gravity;
     private Vector3 velocity;
     private Score score;
+    private boolean multiplayer;
 
     /**
      * help attribute for update-method
@@ -27,7 +30,11 @@ public class Character {
     private long increaseSpeedCounter;
     private Animation playerAnimation;
 
-    public Character(String texturePath) {
+    public Character(String texturePath, int SPEED) {
+        this.SPEED = SPEED;
+        if (this.SPEED == 0){
+            this.multiplayer = true;
+        }
         player = new Sprite(new Texture(texturePath));
         position = new Vector3(ImpossibleGravity.WIDTH / 2 - player.getWidth() / 3, -ImpossibleGravity.HEIGHT / 2, 0);
         bounds = new Rectangle(position.x, position.y, player.getWidth() / 3 - (player.getWidth()/3)/6 , player.getHeight());
@@ -40,6 +47,13 @@ public class Character {
 
     public int getSpeed() {
         return SPEED;
+    }
+
+    public void setSpeed(int SPEED){
+        if (!speedSet) {
+            this.SPEED = SPEED;
+            speedSet = true;
+        }
     }
 
     public float getScore() {
@@ -111,6 +125,12 @@ public class Character {
      * @param dt delta time
      */
     public void update(float dt) {
+
+        if (this.multiplayer && !this.speedSet){
+            if (Settings.getInstance().getMutiplayerReady()){
+                setSpeed(100);
+            }
+        }
 
         playerAnimation.update(dt);
         position.add(SPEED * dt, 0, 0);

@@ -3,6 +3,7 @@ package com.mygdx.game.model;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.ImpossibleGravity;
+import com.mygdx.game.singelton.Settings;
 
 import java.util.Random;
 
@@ -101,7 +102,13 @@ public class ObstacleFactory {
      * @param grass bottom ground instance
      */
     public void update(float dt, OrthographicCamera camera, Character character, Grass grass) {
-        obstacles.add(generateObstacle(character, grass));
+        if (!online) {
+            obstacles.add(generateObstacle(character, grass));
+        } else {
+            if (Settings.getInstance().getMutiplayerReady()){
+                obstacles.add(generateObstacle(character, grass));
+            }
+        }
         cleanObstacleArray(camera);
     }
 }

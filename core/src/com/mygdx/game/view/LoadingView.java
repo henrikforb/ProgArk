@@ -101,14 +101,14 @@ public class LoadingView extends SuperView{
 
     }
 
-    private void startGame(String gameID) {
-        loadingController.startGame(gameID, this.networkController);
+    private void startGame() {
+        loadingController.startGame();
     }
 
     @Override
     public void update(float dt) {
         if (Settings.getInstance().getMutiplayerReady()){
-            startGame(Settings.getInstance().getId());
+            startGame();
         }
         handleInput();
     }
