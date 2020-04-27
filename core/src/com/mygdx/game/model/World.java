@@ -51,6 +51,7 @@ public class World {
         heaven = new Heaven();
         obstacleFactory = new ObstacleFactory();
         character = new Character("playeranimation.png");
+        System.out.println("online");
 
         music = Gdx.audio.newMusic(Gdx.files.internal("offLimits.wav"));
         music.setLooping(true);

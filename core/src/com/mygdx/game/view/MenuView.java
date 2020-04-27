@@ -102,7 +102,8 @@ public class MenuView extends SuperView{
         stage.addActor(highscoreBtn.getHighScoreBtn());
 
         // LISTENERS FOR CLICK GESTURES
-        playBtn.getPlayBtn().addListener(new ActorGestureListener(){
+
+        /*playBtn.getPlayBtn().addListener(new ActorGestureListener(){
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button){
                 System.out.println("playBtn is clicked.");
@@ -141,7 +142,7 @@ public class MenuView extends SuperView{
                 System.out.println("highScoreBtn is clicked.");
                 menuController.highscorePressed();
             }
-        });
+        });*/
 
         // LISTENERS FOR TOUCH GESTURES
 

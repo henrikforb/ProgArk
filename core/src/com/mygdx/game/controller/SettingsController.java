@@ -28,9 +28,6 @@ public class SettingsController {
         return this.model;
     }
 
-    public boolean multiplayerChecked() {
-        return model.multiplayerChecked();
-    }
 
     public void toggleMultiplayer() {
         model.toggleMultiplayer();

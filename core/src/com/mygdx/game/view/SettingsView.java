@@ -136,6 +136,7 @@ public class SettingsView extends SuperView{
         stage.draw();
     }
 
+    //TODO: fix dispose of checkboxes
     @Override
     public void dispose() {
         background.dispose();
