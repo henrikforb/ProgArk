@@ -8,12 +8,11 @@ public class SettingsController {
     private Settings model;
 
     public SettingsController(ViewController vc) {
-        this.model = Settings.getInstance();
+        this.model = vc.getModel();
         this.vc = vc;
     }
 
     public void backToMenu(){
-
         vc.pop();
     }
 
@@ -27,6 +26,12 @@ public class SettingsController {
 
     public Settings getModel(){
         return this.model;
+    }
+
+
+    public void toggleMultiplayer() {
+        model.toggleMultiplayer();
+
     }
 
 }

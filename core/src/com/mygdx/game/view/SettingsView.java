@@ -28,7 +28,8 @@ public class SettingsView extends SuperView{
 
     private Stage stage;
     private MenuBtn menuBtn;
-    private CheckBox checkBox;
+    private CheckBox musicCheckBox;
+    private CheckBox multiplayerCheckBox;
     private TextureRegionDrawable checked;
     private TextureRegionDrawable unchecked;
     private Settings model;
@@ -45,21 +46,29 @@ public class SettingsView extends SuperView{
         checkBoxStyle.checkboxOn = checked;
         checkBoxStyle.checkboxOff = unchecked;
         checkBoxStyle.font = model.getFont();
-        this.checkBox = new CheckBox(" GAME MUSIC", checkBoxStyle);
-        this.checkBox.setChecked(model.gameMusicIsEnabled());
+        this.musicCheckBox = new CheckBox(" GAME MUSIC", checkBoxStyle);
+        this.musicCheckBox.setChecked(model.gameMusicIsEnabled());
+
+        this.multiplayerCheckBox = new CheckBox("MULTIPLAYER", checkBoxStyle);
+        this.multiplayerCheckBox.setChecked(model.multiplayerChecked());
+        System.out.println(model.multiplayerChecked());
 
         int btnHeight = Gdx.graphics.getHeight() / 6;
         int btnWidth = btnHeight*2;
         int checkBoxSize = Gdx.graphics.getHeight() / 10;
 
         menuBtn.getMenuBtn().setSize(btnWidth, btnHeight);
-        checkBox.getImage().setScaling(Scaling.fill);
-        checkBox.getImageCell().size(checkBoxSize);
+        musicCheckBox.getImage().setScaling(Scaling.fill);
+        musicCheckBox.getImageCell().size(checkBoxSize);
+        multiplayerCheckBox.getImage().setScaling(Scaling.fill);
+        multiplayerCheckBox.getImageCell().size(checkBoxSize);
 
         menuBtn.getMenuBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
                 (float)Gdx.graphics.getHeight() / 5 * 1, Align.center);
-        checkBox.setPosition((float)Gdx.graphics.getWidth() / 2,
+        musicCheckBox.setPosition((float)Gdx.graphics.getWidth() / 2,
                 (float)Gdx.graphics.getHeight() / 5 * 3, Align.center);
+        multiplayerCheckBox.setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 2, Align.center);
 
         stage = new Stage(new ScreenViewport());
         startListeners();
@@ -80,7 +89,8 @@ public class SettingsView extends SuperView{
 
         Gdx.input.setInputProcessor(stage);
         stage.addActor(menuBtn.getMenuBtn());
-        stage.addActor(checkBox);
+        stage.addActor(musicCheckBox);
+        stage.addActor(multiplayerCheckBox);
 
         menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
             @Override
@@ -91,9 +101,15 @@ public class SettingsView extends SuperView{
             }
         });
 
-        checkBox.addListener(new ChangeListener() {
+        musicCheckBox.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
                 settingsController.toggleGameMusic();
+            }
+        });
+
+        multiplayerCheckBox.addListener(new ChangeListener() {
+            public void changed (ChangeEvent event, Actor actor) {
+                settingsController.toggleMultiplayer();
             }
         });
 
@@ -111,7 +127,6 @@ public class SettingsView extends SuperView{
     }
 
     @Override
-    // Draws background, the menu button
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
@@ -121,6 +136,7 @@ public class SettingsView extends SuperView{
         stage.draw();
     }
 
+    //TODO: fix dispose of checkboxes
     @Override
     public void dispose() {
         background.dispose();

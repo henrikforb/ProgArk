@@ -3,6 +3,7 @@ package com.mygdx.game.controller;
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.model.Settings;
 import com.mygdx.game.view.HelpView;
+import com.mygdx.game.view.HighscoreView;
 import com.mygdx.game.view.LoadingView;
 import com.mygdx.game.view.PlayView;
 import com.mygdx.game.view.SettingsView;
@@ -24,10 +25,9 @@ public class MenuController {
     }
 
     public void playGamePressed(){
-
-        if (multiplayerChecked()) {
+        if (vc.getModel().multiplayerChecked()) {
             vc.set(new LoadingView(new LoadingController(vc), new NetworkController()));
-        }else {
+        } else {
             vc.set(new PlayView(vc));
         }
     }
@@ -36,12 +36,8 @@ public class MenuController {
         vc.push(new HelpView(new HelpController(vc)));
     }
 
-    public boolean multiplayerChecked() {
-        return vc.multiplayerChecked();
+    public void highscorePressed() {
+        vc.set((new HighscoreView(new HighScoreController(vc))));
     }
 
-    public void toggleMultiplayer() {
-        vc.toggleMultiplayer();
-
-    }
 }

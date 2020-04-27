@@ -19,6 +19,7 @@ public class World {
     private Music music;
     private ObstacleFactory obstacleFactory;
     private Character character;
+    private HighScore highScore = new HighScore();
 
     private Character enemy;
     private boolean enemyExists = false;
@@ -50,6 +51,7 @@ public class World {
         heaven = new Heaven();
         obstacleFactory = new ObstacleFactory();
         character = new Character("playeranimation.png");
+        System.out.println("online");
 
         music = Gdx.audio.newMusic(Gdx.files.internal("offLimits.wav"));
         music.setLooping(true);
@@ -137,6 +139,8 @@ public class World {
             obstacle.update(dt);
             if (obstacle.collides(character.getBounds())) {
                 stopMusic();
+                double score = character.getScore();
+                highScore.addScoreToHighScore(score);
                 //TODO save score to HighScore
                 gameController.gameOver();
                 if (enemyExists) {
