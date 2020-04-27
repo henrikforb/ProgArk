@@ -108,7 +108,7 @@ public class NetworkController {
                 if (Settings.getInstance().getMutiplayerReady()) {
                     JSONObject data = (JSONObject) args[0];
                     try {
-                        world.getObstacleFactory().setNextObstacle(data.getInt("obstacle"), data.getInt("height"));
+                        world.getObstacleFactory().setNextObstacle((int) data.getDouble("obstacle"), (int) data.getDouble("height"));
                     } catch (JSONException e) {
                         Gdx.app.log("SocketIO", "Error receiving obstacle");
                     }
