@@ -17,12 +17,13 @@ public class NetworkController {
     private World world;
     private String gameID;
 
+
     private Socket socket;
 
     public void connectSocket() {
         try {
             socket = IO.socket("https://progark-server.herokuapp.com/");
-            //socket = IO.socket("http://localhost:8080");
+            // socket = IO.socket("http://localhost:8080");
             socket.connect();
         } catch (Exception e) {
             System.out.println(e);
@@ -100,6 +101,18 @@ public class NetworkController {
                 Gdx.app.log("SocketIO", "Other player died");
                 disconnect();
                 System.out.println("disconnected");
+            }
+        }).on("nextObstacle", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                if (Settings.getInstance().getMutiplayerReady()) {
+                    JSONObject data = (JSONObject) args[0];
+                    try {
+                        world.getObstacleFactory().setNextObstacle(data.getInt("obstacle"), data.getInt("height"));
+                    } catch (JSONException e) {
+                        Gdx.app.log("SocketIO", "Error receiving obstacle");
+                    }
+                }
             }
         });
     }
