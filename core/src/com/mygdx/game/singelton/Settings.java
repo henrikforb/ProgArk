@@ -14,6 +14,7 @@ public final class Settings {
     private static final Settings INSTANCE = new Settings();
     private Queue<Integer> nextObstacles;
     private Queue<Integer> nextObstacleHeight;
+    private Queue<Integer> nextTime;
 
     public static Settings getInstance(){
         return INSTANCE;
@@ -35,6 +36,7 @@ public final class Settings {
 
         nextObstacles = new Queue<>();
         nextObstacleHeight = new Queue<>();
+        nextTime = new Queue<>();
     }
 
     public void setSoundVolume(float volume){}
@@ -78,13 +80,22 @@ public final class Settings {
         return multiplayer;
     }
 
-    public void addToQueue(int x, int y){
+    public void addToQueue(int x, int y, int time){
         nextObstacles.addLast(x);
         nextObstacleHeight.addLast(y);
+        nextTime.addLast(time);
     }
 
     public int getNextObstacle(){
         return nextObstacles.first();
+    }
+
+    public int getNextTime(){
+        return nextTime.first();
+    }
+
+    public void removeFirstTime() {
+        nextTime.removeFirst();
     }
 
     public int getNextObstacleHeight(){
