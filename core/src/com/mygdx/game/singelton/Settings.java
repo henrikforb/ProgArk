@@ -96,4 +96,8 @@ public final class Settings {
         nextObstacleHeight.removeFirst();
     }
 
+    public int getQueueSize(){
+        return nextObstacles.size;
+    }
+
 }

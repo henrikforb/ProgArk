@@ -106,7 +106,7 @@ public class ObstacleFactory {
         if (!online) {
             obstacles.add(generateObstacle(character, grass));
         } else {
-            if (Settings.getInstance().getMutiplayerReady()){
+            if (Settings.getInstance().getMutiplayerReady() && Settings.getInstance().getQueueSize() != 0){
                 obstacles.add(generateObstacle(character, grass));
             }
         }
