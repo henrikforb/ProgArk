@@ -26,6 +26,8 @@ public final class Settings {
     private boolean mutiplayerReady = false;
     private String id = "";
 
+    private int logCounter = 0;
+
     private Settings(){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Retro Gaming.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -95,7 +97,9 @@ public final class Settings {
     }
 
     public void removeFirstTime() {
-        nextTime.removeFirst();
+        int time = nextTime.removeFirst();
+        System.out.println(this.logCounter + " Obstacle was created with time:" + time );
+        this.logCounter++;
     }
 
     public int getNextObstacleHeight(){

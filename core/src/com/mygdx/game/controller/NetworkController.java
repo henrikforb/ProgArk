@@ -114,7 +114,7 @@ public class NetworkController {
                         int time = (int) data.getDouble("time");
                         Settings.getInstance().addToQueue(obstacle, height, time);
                         // world.getObstacleFactory().setNextObstacle(obstacle, height);
-                        Gdx.app.log("SocketIO", "obstacle: "+ obstacle + " height: " + height);
+                        Gdx.app.log("SocketIO", "obstacle: "+ obstacle + " height: " + height + " time: " + time);
                     } catch (JSONException e) {
                         Gdx.app.log("SocketIO", "Error receiving obstacle");
                     }
