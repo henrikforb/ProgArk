@@ -44,12 +44,6 @@ public class PlayView extends SuperView {
     private Stage stage;
     private World world;
     private boolean multiplayer;
-    private String gameID;
-
-
-    // private HashMap<String, Character> enemyCharacters;
-
-    private Socket socket;
 
     private MenuBtn menuBtn;
     private PauseBtn pauseBtn;
@@ -88,12 +82,14 @@ public class PlayView extends SuperView {
 
     public PlayView(ViewController vc, Socket socket, NetworkController nc, String gameID){
 
-        this.gameID = gameID;
         this.world = new World(nc);
         this.world.createEnemy();
         this.gameController = new GameController(vc, world);
         this.pc = new CharacterController(vc);
         this.networkController = nc;
+        nc.setCharacterController(this.pc);
+        nc.setWorld(this.world);
+        nc.setGameID(gameID);
 
         this.multiplayer = true;
 
@@ -118,9 +114,6 @@ public class PlayView extends SuperView {
                 Gdx.graphics.getHeight() - (float)btnHeight/4,
                 Align.topLeft);
 
-        this.socket = socket;
-
-        startOnline();
         startListeners();
     }
 
@@ -139,7 +132,7 @@ public class PlayView extends SuperView {
             public boolean tap(float x, float y, int count, int button) {
                 pc.touch(world.getCharacter());
                 if (multiplayer) {
-                    updateServer(0, 0);
+                    networkController.updateServer(0, 0);
                 }
                 return true;
             }
@@ -148,13 +141,13 @@ public class PlayView extends SuperView {
                 if (velocityY > 10) {
                     pc.swipe(world.getCharacter(), 0);
                     if (multiplayer) {
-                        updateServer(1, 0);
+                        networkController.updateServer(1, 0);
                     }
                 }
                 if (velocityY < -10) {
                     pc.swipe(world.getCharacter(), 1);
                     if (multiplayer) {
-                        updateServer(1, 1);
+                        networkController.updateServer(1, 1);
                     }
                 }
 
@@ -211,74 +204,6 @@ public class PlayView extends SuperView {
     @Override
     protected void handleInput() {
     }
-
-    public void startOnline() {
-        // enemyCharacters = new HashMap<String, Character>();
-        configSocketEvents();
-    }
-
-    //TODO pass socket to playview
-    //TODO move connection logic to menu
-
-    public void configSocketEvents() {
-        socket.on("newPlayer", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
-                try {
-                    String id = data.getString("id");
-                    Gdx.app.log("SocketIO", "New Player Connect: " + id);
-                } catch (JSONException e) {
-                    Gdx.app.log("SocketIO", "Error getting New PlayerID");
-                }
-            }
-        }).on("playerDisconnected", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
-                try {
-                    String id = data.getString("id");
-                } catch (JSONException e) {
-                    Gdx.app.log("SocketIO", "Error getting disconnect message");
-                }
-            }
-        }).on("playerMoved", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
-                try {
-                    if (data.getInt("movement") == 0) {
-                        pc.touch(world.getEnemy());
-                    } else {
-                        pc.swipe(world.getEnemy(), data.getInt("direction"));
-                    }
-                } catch (JSONException e) {
-                    Gdx.app.log("SocketIO", "Error getting movement value or direction");
-                }
-            }
-        }).on("victory", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                world.setEnemyDead();
-                Gdx.app.log("SocketIO", "Other player died");
-                networkController.disconnect();
-                System.out.println("disconnected");
-            }
-        });
-    }
-
-    public void updateServer(int movementType, int direction) {
-        JSONObject data = new JSONObject();
-        try {
-            data.put("movement", movementType);
-            data.put("direction", direction);
-            data.put("gameID", this.gameID);
-            socket.emit("playerMoved", data);
-        } catch (JSONException e) {
-            Gdx.app.log("SocketIO", "Error sending update data");
-        }
-    }
-
 
     /**
      * Update method handles input from user, calls all textures update-methods and maked camera follow player
