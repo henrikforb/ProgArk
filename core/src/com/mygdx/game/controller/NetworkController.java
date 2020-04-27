@@ -149,6 +149,7 @@ public class NetworkController {
     public void disconnect() {
         socket.off();
         socket.disconnect();
+        Settings.getInstance().emptyQueue();
     }
 
     public Socket getSocket() {

@@ -100,4 +100,9 @@ public final class Settings {
         return nextObstacles.size;
     }
 
+    public void emptyQueue(){
+        nextObstacles.clear();
+        nextObstacleHeight.clear();
+    }
+
 }
