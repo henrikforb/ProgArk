@@ -2,9 +2,10 @@ package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Queue;
 import com.mygdx.game.ImpossibleGravity;
 
-import java.util.Queue;
+
 import java.util.Random;
 
 /**
@@ -56,8 +57,8 @@ public class ObstacleFactory {
 
         if (online){
             if (!this.nextObstacles.isEmpty()) {
-                chosenObstacle = this.nextObstacles.poll();
-                chosenHeight = 50 + this.nextObstacleHeights.poll();
+                chosenObstacle = this.nextObstacles.removeFirst();
+                chosenHeight = 50 + this.nextObstacleHeights.removeFirst();
             } else {
                 chosenObstacle = 9;
                 chosenHeight = 50 + 25;
@@ -101,8 +102,8 @@ public class ObstacleFactory {
     }
 
     public void addNextObstacle(int obstacle, int height) {
-        this.nextObstacles.add(obstacle);
-        this.nextObstacleHeights.add(height);
+        this.nextObstacles.addLast(obstacle);
+        this.nextObstacleHeights.addLast(height);
     }
 
     /**

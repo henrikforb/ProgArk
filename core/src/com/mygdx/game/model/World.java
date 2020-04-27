@@ -3,10 +3,11 @@ package com.mygdx.game.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.Queue;
 import com.mygdx.game.controller.GameController;
 import com.mygdx.game.controller.NetworkController;
 
-import java.util.Queue;
+
 import java.util.Random;
 
 import com.mygdx.game.singelton.Settings;
@@ -73,7 +74,7 @@ public class World {
     }
 
     public void addNextObstacle(int obstacle, int height, int time) {
-        this.obstacleTimes.add(time);
+        this.obstacleTimes.addLast(time);
         this.obstacleFactory.addNextObstacle(obstacle, height);
     }
 
@@ -138,10 +139,10 @@ public class World {
          * Checks the speed of character to make obstacle occurrence proportional with speed
          */
         if (online) {
-            if (System.currentTimeMillis() - lastObstacle >= 900 + obstacleTimes.peek()) {
+            if (System.currentTimeMillis() - lastObstacle >= 900 + obstacleTimes.get(0)) {
                 obstacleFactory.update(dt, camera, getCharacter(), getGrass());
                 lastObstacle = System.currentTimeMillis();
-                obstacleTimes.poll();
+                obstacleTimes.removeFirst();
             }
         } else {
             if (System.currentTimeMillis() - lastObstacle >= 900 + obstacle_occurrence.nextInt((2000-character.getSpeed()))) {
