@@ -26,6 +26,7 @@ public class World {
     private Character enemy;
     private boolean enemyExists = false;
     private boolean enemyDead = false;
+    private boolean enemyDisconnected = false;
 
     private NetworkController networkController;
 
@@ -96,6 +97,10 @@ public class World {
         return this.enemyExists;
     }
 
+    public void setEnemyDisconnected(){
+        enemyDisconnected = true;
+    }
+
     public void playMusic(){music.play();}
 
     public void stopMusic(){music.stop();}
@@ -124,7 +129,7 @@ public class World {
 
 
         /**
-         * Updates the ObstacleFactory to generate a new obstacle every 0,5 sec + random up tp 2 sec
+         * Updates the ObstacleFactory to generate a new obstacle every 0,9 sec + random up tp 2 sec
          * Checks the speed of character to make obstacle occurrence proportional with speed
          */
 
