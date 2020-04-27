@@ -24,6 +24,7 @@ public class World {
     private HighScore highScore = new HighScore();
 
     private Character enemy;
+    private boolean online;
     private boolean enemyExists = false;
     private boolean enemyDead = false;
     private boolean enemyDisconnected = false;
@@ -37,9 +38,10 @@ public class World {
     private Random obstacle_occurrence;
 
     public World() {
+        online = false;
         grass = new Grass();
         heaven = new Heaven();
-        obstacleFactory = new ObstacleFactory();
+        obstacleFactory = new ObstacleFactory(false);
 
         character = new Character("playeranimation.png");
 
@@ -50,9 +52,10 @@ public class World {
     }
 
     public World(NetworkController nc) {
+        online = true;
         grass = new Grass();
         heaven = new Heaven();
-        obstacleFactory = new ObstacleFactory();
+        obstacleFactory = new ObstacleFactory(true);
         character = new Character("playeranimation.png");
         System.out.println("online");
 
@@ -121,7 +124,7 @@ public class World {
 
     public void update(float dt, OrthographicCamera camera, GameController gameController) {
         character.update(dt);
-        if (enemyExists) {
+        if (online) {
             enemy.update(dt);
         }
         grass.update(dt, camera);
@@ -150,11 +153,13 @@ public class World {
                 highScore.addScoreToHighScore(score);
                 //TODO save score to HighScore
                 if (enemyExists) {
-                    gameController.gameOver(true,false);
-                    networkController.handleDeath();
-                    Settings.getInstance().setMultiplayerNotReady();
-                } else {
-                    gameController.gameOver(false, false);
+                    gameController.gameOver(true, false);
+                    if (online) {
+                        networkController.handleDeath();
+                        Settings.getInstance().setMultiplayerNotReady();
+                    } else {
+                        gameController.gameOver(false, false);
+                    }
                 }
             }
         }

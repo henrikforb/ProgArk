@@ -21,9 +21,16 @@ public class ObstacleFactory {
     private int chosenHeight;
     private int chosenWidth;
 
+    private boolean online;
+    private int nextObstacle = 10;  // initiated with standard values in case the server hasn't
+    private int nextObstacleHeight = 25; // transmitted any yet
 
-    public ObstacleFactory() {
-        random = new Random();
+
+    public ObstacleFactory(boolean online) {
+        this.online = online;
+        if (!online) {
+            random = new Random();
+        }
         obstacles = new Array<Obstacle>();
     }
 
@@ -32,14 +39,23 @@ public class ObstacleFactory {
     }
 
     /**
-     * Generates a random value between 0 and 2 to decide weather to generate a bottom- or top obstacle
+     * Generates a random value between 0 and 2 to decide whether to generate a bottom- or top obstacle
      * Generates a random height and width and returns an either a lightning- or cactus obstacle of the chosen size
+     *
+     * If online, the values chosen obstacle and chosenHeight will be recieved from the server instead
+     *
      */
     public Obstacle generateObstacle(Character character, Grass grass) {
 
-        chosenObstacle = random.nextInt(11);
-        chosenHeight = 50 + random.nextInt(50);
+        if (online){
+            chosenObstacle = this.nextObstacle;
+            chosenHeight = 50 + this.nextObstacleHeight;
+        } else {
+            chosenObstacle = random.nextInt(11);
+            chosenHeight = 50 + random.nextInt(50);
+        }
         chosenWidth = chosenHeight / 3;
+
 
         if (chosenObstacle < 4) {
             return new Lightning(character.getPosition().x + ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT, chosenWidth/2, chosenHeight*2);
@@ -49,6 +65,14 @@ public class ObstacleFactory {
             return new Cactus(character.getPosition().x + ImpossibleGravity.WIDTH, grass.getGroundHeight()-10, 200, 50);
         }
     }
+
+    /**
+     * Receives random values from server and generates obstacles from them
+     * Generates a random height and width from server and returns an either a lightning- or cactus obstacle of the chosen size
+     *
+     *
+     */
+
 
     /**
      * Deletes obstacles from obstacles-Array as they are out of viewport to prevent use of unnecessary storage
@@ -61,6 +85,11 @@ public class ObstacleFactory {
             }
 
         }
+    }
+
+    public void setNextObstacle(int obstacle, int height) {
+        this.nextObstacle = obstacle;
+        this.nextObstacleHeight = height;
     }
 
     /**
