@@ -68,7 +68,6 @@ public class PlayView extends SuperView {
     }
 
     private void initializeStage(){
-        this.pauseBtn = new PauseBtn();
         this.menuBtn = new MenuBtn();
 
         stage = new Stage(new ScreenViewport());
@@ -77,25 +76,29 @@ public class PlayView extends SuperView {
         int btnWidth = btnHeight * 2;
 
         menuBtn.getMenuBtn().setSize(btnWidth, btnHeight);
-        pauseBtn.getPauseBtn().setSize(btnWidth, btnHeight);
 
         menuBtn.getMenuBtn().setPosition(
                 (float)btnWidth/4,
                 Gdx.graphics.getHeight() - (float)btnHeight/4,
                 Align.topLeft);
 
-        pauseBtn.getPauseBtn().setPosition(
-                btnWidth + (float)btnWidth/4*2,
-                Gdx.graphics.getHeight() - (float)btnHeight/4,
-                Align.topLeft);
+        if (!multiplayer){
+            this.pauseBtn = new PauseBtn();
+            pauseBtn.getPauseBtn().setSize(btnWidth, btnHeight);
+            pauseBtn.getPauseBtn().setPosition(
+                    btnWidth + (float)btnWidth/4*2,
+                    Gdx.graphics.getHeight() - (float)btnHeight/4,
+                    Align.topLeft);
+        }
     }
 
     /**
      * Listeners for touch gestures to notice input from the user
      */
     public void startListeners(){
-
-        pauseBtn.getPauseBtn().clearListeners();
+        if (!multiplayer) {
+            pauseBtn.getPauseBtn().clearListeners();
+        }
         menuBtn.getMenuBtn().clearListeners();
 
         InputMultiplexer multiplexer = new InputMultiplexer();
@@ -129,36 +132,19 @@ public class PlayView extends SuperView {
         }));
         Gdx.input.setInputProcessor(multiplexer);
 
-        stage.addActor(pauseBtn.getPauseBtn());
-        stage.addActor(menuBtn.getMenuBtn());
-        /*
-        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
-            @Override
-            public boolean tap(float x, float y, int count, int button) {
-                pc.touch(world.getCharacter());
-                return true;
-            }
-            @Override
-            public boolean fling(float velocityX, float velocityY, int button) {
-                if (velocityY > 10) { pc.swipe(world.getCharacter(), 0); }
-                if (velocityY < -10) { pc.swipe(world.getCharacter(), 1); }
-                return true;
-            }
-        }));
-        Gdx.input.setInputProcessor(multiplexer);
-
-        stage.addActor(pauseBtn.getPauseBtn());
         stage.addActor(menuBtn.getMenuBtn());
 
-         */
+        if (!multiplayer) {
+            stage.addActor(pauseBtn.getPauseBtn());
 
-        pauseBtn.getPauseBtn().addListener(new ActorGestureListener() {
-            @Override
-            public void tap(InputEvent event, float x, float y, int count, int button) {
-                System.out.println("pauseBtn is touched.");
-                gameController.pauseGame();
-            }
-        });
+            pauseBtn.getPauseBtn().addListener(new ActorGestureListener() {
+                @Override
+                public void tap(InputEvent event, float x, float y, int count, int button) {
+                    System.out.println("pauseBtn is touched.");
+                    gameController.pauseGame();
+                }
+            });
+        }
 
         menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
             @Override
@@ -236,6 +222,7 @@ public class PlayView extends SuperView {
         world.dispose();
         menuBtn.dispose();
         pauseBtn.dispose();
+        stage.dispose();
         System.out.println("PlayView Disposed");
     }
 
