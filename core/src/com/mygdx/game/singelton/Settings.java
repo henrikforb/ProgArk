@@ -1,11 +1,9 @@
-package com.mygdx.game.model;
+package com.mygdx.game.singelton;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-
-import io.socket.client.Socket;
 
 /**
  * Logic for all settings needed: Music enable and volume

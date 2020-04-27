@@ -1,6 +1,6 @@
 package com.mygdx.game.controller;
 
-import com.mygdx.game.model.Settings;
+import com.mygdx.game.singelton.Settings;
 import com.mygdx.game.model.World;
 import com.mygdx.game.view.GameOverView;
 import com.mygdx.game.view.MenuView;

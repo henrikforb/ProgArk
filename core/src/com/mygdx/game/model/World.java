@@ -8,6 +8,8 @@ import com.mygdx.game.controller.NetworkController;
 
 import java.util.Random;
 
+import com.mygdx.game.singelton.Settings;
+
 /**
  * Model for game environment called from play view
  * Every texture in the game is created here

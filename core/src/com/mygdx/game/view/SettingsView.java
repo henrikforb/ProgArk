@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.SettingsController;
 import com.mygdx.game.interactiveElements.MenuBtn;
-import com.mygdx.game.model.Settings;
+import com.mygdx.game.singelton.Settings;
 
 /**
  * View for settings screen when "settings" is pushed in menu

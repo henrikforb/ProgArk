@@ -1,9 +1,8 @@
 package com.mygdx.game.controller;
 
-import com.mygdx.game.model.Settings;
+import com.mygdx.game.singelton.Settings;
 import com.mygdx.game.model.World;
 import com.mygdx.game.view.MenuView;
-import com.mygdx.game.view.PlayView;
 import com.mygdx.game.view.SettingsView;
 
 public class PauseController {

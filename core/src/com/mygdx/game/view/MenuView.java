@@ -18,7 +18,7 @@ import com.mygdx.game.interactiveElements.HighscoreBtn;
 import com.mygdx.game.interactiveElements.PlayBtn;
 import com.mygdx.game.interactiveElements.QuitBtn;
 import com.mygdx.game.interactiveElements.SettingsBtn;
-import com.mygdx.game.model.Settings;
+import com.mygdx.game.singelton.Settings;
 
 /**
  * View for menu screen with different buttons to choose action

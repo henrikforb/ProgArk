@@ -1,7 +1,6 @@
 package com.mygdx.game.controller;
 
 import com.badlogic.gdx.Gdx;
-import com.mygdx.game.model.Settings;
 import com.mygdx.game.view.HelpView;
 import com.mygdx.game.view.HighscoreView;
 import com.mygdx.game.view.LoadingView;

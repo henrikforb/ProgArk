@@ -1,8 +1,7 @@
 package com.mygdx.game.controller;
 
-import com.mygdx.game.view.HighscoreView;
 import com.mygdx.game.view.MenuView;
-import com.mygdx.game.model.Settings;
+import com.mygdx.game.singelton.Settings;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class HighScoreController {

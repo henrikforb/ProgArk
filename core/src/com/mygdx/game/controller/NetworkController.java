@@ -1,7 +1,7 @@
 package com.mygdx.game.controller;
 
 import com.badlogic.gdx.Gdx;
-import com.mygdx.game.model.Settings;
+import com.mygdx.game.singelton.Settings;
 import com.mygdx.game.model.World;
 
 import org.json.JSONException;

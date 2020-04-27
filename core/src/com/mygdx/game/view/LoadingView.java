@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.LoadingController;
 import com.mygdx.game.controller.NetworkController;
-import com.mygdx.game.model.Settings;
+import com.mygdx.game.singelton.Settings;
 
 /**
  * View for loanding screen while waiting to connect with another player in multiplayer mode

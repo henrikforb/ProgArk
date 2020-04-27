@@ -1,7 +1,7 @@
 package com.mygdx.game.controller;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.model.Settings;
+import com.mygdx.game.singelton.Settings;
 import com.mygdx.game.view.SuperView;
 
 import java.util.Stack;
