@@ -126,7 +126,7 @@ public class NetworkController {
         try {
             data.put("movement", movementType);
             data.put("direction", direction);
-            data.put("gameID", this.gameID);
+            data.put("gameID", Settings.getInstance().getId());
             socket.emit("playerMoved", data);
         } catch (JSONException e) {
             Gdx.app.log("SocketIO", "Error sending update data");

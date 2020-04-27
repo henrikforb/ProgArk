@@ -16,6 +16,7 @@ public class LoadingController {
     public void startGame(){
 
         vc.set(playView);
+        playView.startListeners();
     }
 
     public void quitGame(){

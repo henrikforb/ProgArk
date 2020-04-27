@@ -63,7 +63,7 @@ public class PlayView extends SuperView {
         this.multiplayer = true;
 
         initializeStage();
-        startListeners();
+        // startListeners();
     }
 
     private void initializeStage(){
