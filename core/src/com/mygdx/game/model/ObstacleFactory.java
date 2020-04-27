@@ -49,8 +49,8 @@ public class ObstacleFactory {
     public Obstacle generateObstacle(Character character, Grass grass) {
 
         if (online){
-            chosenObstacle = this.nextObstacle;
-            chosenHeight = 50 + this.nextObstacleHeight;
+            chosenObstacle = Settings.getInstance().getNextObstacle();
+            chosenHeight = 50 + Settings.getInstance().getNextObstacleHeight();
         } else {
             chosenObstacle = random.nextInt(11);
             chosenHeight = 50 + random.nextInt(50);

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.utils.Queue;
 
 /**
  * Logic for all settings needed: Music enable and volume
@@ -11,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 public final class Settings {
 
     private static final Settings INSTANCE = new Settings();
+    private Queue<Integer> nextObstacles;
+    private Queue<Integer> nextObstacleHeight;
 
     public static Settings getInstance(){
         return INSTANCE;
@@ -29,6 +32,9 @@ public final class Settings {
         parameter.color = Color.valueOf("#ff6f00"); // can be changed to orange to match buttons
         this.font = generator.generateFont(parameter);
         generator.dispose();
+
+        nextObstacles = new Queue<>();
+        nextObstacleHeight = new Queue<>();
     }
 
     public void setSoundVolume(float volume){}
@@ -70,6 +76,24 @@ public final class Settings {
 
     public boolean multiplayerChecked() {
         return multiplayer;
+    }
+
+    public void addToQueue(int x, int y){
+        nextObstacles.addLast(x);
+        nextObstacleHeight.addLast(y);
+    }
+
+    public int getNextObstacle(){
+        return nextObstacles.first();
+    }
+
+    public int getNextObstacleHeight(){
+        return nextObstacleHeight.first();
+    }
+
+    public void removeFirstFromQueue(){
+        nextObstacles.removeFirst();
+        nextObstacleHeight.removeFirst();
     }
 
 }
