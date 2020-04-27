@@ -1,5 +1,6 @@
 package com.mygdx.game.controller;
 
+import com.mygdx.game.view.MenuView;
 import com.mygdx.game.view.PlayView;
 
 public class LoadingController {
@@ -13,5 +14,9 @@ public class LoadingController {
     public void startGame(String gameID, NetworkController nc){
 
         vc.set(new PlayView(vc, nc, gameID));
+    }
+
+    public void quitGame(){
+        vc.set(new MenuView(new MenuController(vc)));
     }
 }

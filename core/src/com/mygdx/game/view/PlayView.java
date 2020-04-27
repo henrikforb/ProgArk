@@ -132,8 +132,6 @@ public class PlayView extends SuperView {
         }));
         Gdx.input.setInputProcessor(multiplexer);
 
-        stage.addActor(menuBtn.getMenuBtn());
-
         if (!multiplayer) {
             stage.addActor(pauseBtn.getPauseBtn());
 
@@ -146,11 +144,13 @@ public class PlayView extends SuperView {
             });
         }
 
+        stage.addActor(menuBtn.getMenuBtn());
         menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("menuBtn is touched.");
                 gameController.quitGame();
+                networkController.disconnect();
                 dispose();
             }
         });
@@ -218,7 +218,9 @@ public class PlayView extends SuperView {
         background.dispose();
         world.dispose();
         menuBtn.dispose();
-        pauseBtn.dispose();
+        if (!multiplayer) {
+            pauseBtn.dispose();
+        }
         stage.dispose();
         System.out.println("PlayView Disposed");
     }
