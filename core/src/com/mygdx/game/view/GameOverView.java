@@ -62,7 +62,7 @@ public class GameOverView extends SuperView{
         Gdx.input.setInputProcessor(stage);
         stage.addActor(menuBtn.getMenuBtn());
         stage.addActor(gameOverImage);
-
+        /*
         menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -71,6 +71,8 @@ public class GameOverView extends SuperView{
                 dispose();
             }
         });
+
+         */
 
         /**
          * Listeners for touch gestures to make the game work on touch screen

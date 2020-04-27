@@ -97,7 +97,7 @@ public class HighscoreView extends SuperView {
 
         Gdx.input.setInputProcessor(stage);
         stage.addActor(menuBtn.getMenuBtn());
-
+        /*
         // LISTENERS FOR CLICK GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
             @Override
@@ -106,6 +106,7 @@ public class HighscoreView extends SuperView {
                 highScoreController.backToMenu();
             }
         });
+        */
 
         // LISTENERS FOR TAP GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
